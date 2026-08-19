@@ -13,17 +13,20 @@ Rezultatul e în `dist/`. Conține și `.htaccess` (redirect HTTPS + fără www,
 
 ## 2. Urcare pe Hostinger
 
-1. În hPanel: **Domenii → Adaugă domeniu** pentru `homemedicalac.ro` (dacă domeniul e cumpărat
+1. În hPanel: **Website → Adaugă website** pentru `homemedicalac.ro` (dacă domeniul e cumpărat
    la alt registrar, pune la el nameserverele Hostinger: `ns1.dns-parking.com`,
    `ns2.dns-parking.com`).
-2. **Fișiere → File Manager**, intră în `public_html` și șterge ce e acolo (`default.php` etc).
+2. **Fișiere → File Manager** și intră în folderul domeniului. Atenție: dacă
+   `homemedicalac.ro` e domeniu **suplimentar** pe plan, calea este
+   `domains/homemedicalac.ro/public_html`, nu `public_html`-ul din rădăcină (acela aparține
+   domeniului principal al planului). Șterge ce găsești acolo (`default.php` etc).
 3. Urcă **conținutul** folderului `dist/` (nu folderul în sine). Cel mai simplu: arhivează
    conținutul lui `dist` într-un zip, îl urci și îl dezarhivezi direct în `public_html`.
 4. Verifică să existe `public_html/.htaccess`. File Manager ascunde fișierele care încep cu
    punct: activează „Show hidden files" din setări. Dacă lipsește, urcă-l separat.
 5. **Securitate → SSL**: instalează certificatul gratuit și activează „Force HTTPS".
 
-Structura finală: `public_html/index.html`, `public_html/_astro/…`, `public_html/servicii/…`.
+Structura finală, în folderul domeniului: `index.html`, `_astro/…`, `servicii/…`, `.htaccess`.
 
 ## 3. După ce domeniul răspunde
 
