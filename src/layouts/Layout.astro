@@ -1,18 +1,32 @@
 ---
-import { url } from '../data/site';
+import { url, site } from '../data/site';
+import { businessSchema } from '../data/schema';
+import interRegular from '../assets/fonts/inter-400.woff2?url';
+import serifBold from '../assets/fonts/serif-600.woff2?url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieNotice from '../components/CookieNotice.astro';
 
 interface Props {
   title: string;
   description?: string;
+  /** Date structurate specifice paginii (breadcrumb, FAQ, serviciu). */
+  schema?: unknown[];
+  /** Pagini care nu au ce căuta în index (politici, pagini duplicat). */
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = 'Servicii medicale la domiciliu în Constanța și zonele limitrofe: consultații, recoltări de analize, tratamente injectabile și perfuzabile, îngrijiri postoperatorii și paliative. Servicii decontate de CAS sau contra cost.',
+  description = 'Îngrijiri medicale la domiciliu în Constanța și zonele limitrofe: consultații, recoltări de analize, perfuzii și injecții, pansamente și escare, îngrijiri postoperatorii și paliative. Servicii decontate de CAS sau contra cost.',
+  schema = [],
+  noindex = false,
 } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/index\.html$/, ''), Astro.site).href;
+const ogImage = new URL(url('/og-home-medical-ac.jpg'), Astro.site).href;
+const structuredData = [businessSchema, ...schema];
 ---
 
 <html lang="ro">
@@ -24,16 +38,30 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    {/* Preview pentru client: nu vrem să fie indexat și confundat cu site-ul oficial.
-        Se scoate la lansarea proiectului real. */}
-    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,400&display=swap"
-      rel="stylesheet"
-    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {/* Cele două fonturi folosite deasupra pliului: titlul serif și textul de bază. */}
+    <link rel="preload" as="font" type="font/woff2" href={serifBold} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interRegular} crossorigin />
+
+    {
+      structuredData.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
   </head>
   <body>
     <a
@@ -47,6 +75,7 @@ const {
       <slot />
     </main>
     <Footer />
+    <CookieNotice />
     <script>
       // Header transparent peste banda întunecată de sus -> solid la scroll
       const header = document.querySelector('.site-header');
@@ -77,11 +106,33 @@ const {
         revealed.forEach((el) => io.observe(el));
       }
 
-      // Video hero: oprit la prefers-reduced-motion
+      // Video hero: încărcat abia după `load`, doar pe ecrane mari și pe conexiuni bune.
+      // Pe mobil, pe conexiuni lente sau la prefers-reduced-motion rămâne posterul.
       const heroVideo = document.querySelector<HTMLVideoElement>('.hero-video');
-      if (heroVideo && reduced) {
-        heroVideo.removeAttribute('autoplay');
-        heroVideo.pause();
+      if (heroVideo && !reduced && window.matchMedia('(min-width: 768px)').matches) {
+        const conn = (navigator as any).connection;
+        const stingy = conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType ?? ''));
+        if (!stingy) {
+          const start = () => {
+            for (const [attr, type] of [
+              ['webm', 'video/webm'],
+              ['mp4', 'video/mp4'],
+            ] as const) {
+              const src = heroVideo.dataset[attr];
+              if (!src) continue;
+              const source = document.createElement('source');
+              source.src = src;
+              source.type = type;
+              heroVideo.appendChild(source);
+            }
+            heroVideo.load();
+            heroVideo.play().catch(() => {
+              /* browserul poate refuza autoplay: rămâne posterul */
+            });
+          };
+          if (document.readyState === 'complete') start();
+          else window.addEventListener('load', start, { once: true });
+        }
       }
     </script>
   </body>

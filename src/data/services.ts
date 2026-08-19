@@ -10,6 +10,17 @@ export interface Service {
   title: string;
   /** Titlu scurt, pentru liste și meniuri. */
   navTitle: string;
+  /**
+   * Datele pentru pagina proprie a serviciului. Fiecare serviciu țintește o singură
+   * căutare locală („perfuzii la domiciliu Constanța"), ca să nu concureze între ele.
+   */
+  seo: {
+    /** H1-ul paginii dedicate. */
+    heading: string;
+    /** <title>, cu keyword-ul la început. */
+    metaTitle: string;
+    metaDescription: string;
+  };
   image: ImageMetadata;
   alt: string;
   /** O propoziție pentru cardurile de pe homepage. */
@@ -31,6 +42,12 @@ export const services: Service[] = [
     slug: 'consultatii-medicale',
     title: 'Consultații medicale la domiciliu',
     navTitle: 'Consultații medicale',
+    seo: {
+      heading: 'Consultații medicale la domiciliu în Constanța',
+      metaTitle: 'Consultații medicale la domiciliu Constanța | Home Medical AC',
+      metaDescription:
+        'Consultație medicală la domiciliu în Constanța: examen clinic, măsurarea parametrilor vitali și plan de îngrijire scris, pentru pacienții care nu se pot deplasa. Programări la 0726 390 461.',
+    },
     image: imgConsultatie,
     alt: 'Asistentă medicală consultând un pacient vârstnic cu stetoscopul, la domiciliu',
     short:
@@ -54,6 +71,12 @@ export const services: Service[] = [
     slug: 'ingrijiri-postoperatorii-paliative',
     title: 'Îngrijiri postoperatorii, oncologice și paliative',
     navTitle: 'Îngrijiri postoperatorii și paliative',
+    seo: {
+      heading: 'Îngrijiri paliative și postoperatorii la domiciliu în Constanța',
+      metaTitle: 'Îngrijiri paliative la domiciliu Constanța | Home Medical AC',
+      metaDescription:
+        'Îngrijiri postoperatorii, oncologice și paliative la domiciliu în Constanța: plăgi operatorii, sonde și stome, terapia durerii, prevenirea escarelor. Decontate de CAS pentru pacienții eligibili.',
+    },
     image: imgPaliativ,
     alt: 'Asistentă medicală ținând de mână o pacientă vârstnică așezată în fotoliu, acasă',
     short:
@@ -77,6 +100,12 @@ export const services: Service[] = [
     slug: 'recoltari-analize',
     title: 'Recoltări de analize la domiciliu',
     navTitle: 'Recoltări de analize',
+    seo: {
+      heading: 'Recoltare de analize la domiciliu în Constanța',
+      metaTitle: 'Recoltare analize la domiciliu Constanța | Home Medical AC',
+      metaDescription:
+        'Recoltăm analizele acasă, în Constanța și în zonele limitrofe: sânge venos și capilar, urocultură, coprocultură, exsudat faringian. Probele ajung la laborator în aceeași zi.',
+    },
     image: imgRecoltare,
     alt: 'Recoltare de analize de sânge la domiciliul pacientului',
     short: 'Recoltăm probele la patul pacientului și le predăm laboratorului partener în aceeași zi.',
@@ -97,6 +126,12 @@ export const services: Service[] = [
     slug: 'tratamente-injectabile-perfuzabile',
     title: 'Tratamente injectabile și perfuzabile',
     navTitle: 'Tratamente injectabile și perfuzabile',
+    seo: {
+      heading: 'Perfuzii și injecții la domiciliu în Constanța',
+      metaTitle: 'Perfuzii și injecții la domiciliu Constanța | Home Medical AC',
+      metaDescription:
+        'Perfuzii, injecții intramusculare, subcutanate și intravenoase, montarea branulei, la domiciliul pacientului din Constanța. Asistentul rămâne lângă pacient pe toată durata administrării.',
+    },
     image: imgPerfuzie,
     alt: 'Asistentă medicală pregătind o perfuzie la patul pacientului, acasă',
     short: 'Administrăm tratamentul prescris de medic, cu supraveghere pe toată durata administrării.',
@@ -117,6 +152,12 @@ export const services: Service[] = [
     slug: 'pansamente-escare',
     title: 'Pansamente și tratamentul escarelor',
     navTitle: 'Pansamente și escare',
+    seo: {
+      heading: 'Pansamente și tratamentul escarelor la domiciliu în Constanța',
+      metaTitle: 'Pansamente și escare la domiciliu Constanța | Home Medical AC',
+      metaDescription:
+        'Toaletarea și pansarea plăgilor, tratamentul escarelor pe stadii, plăgi diabetice și ulcere varicoase, scoaterea firelor de sutură, la domiciliu în Constanța.',
+    },
     image: imgPansament,
     alt: 'Aplicarea unui pansament steril pe antebrațul unui pacient',
     short: 'Toaletarea și pansarea plăgilor, tratamentul escarelor pe stadii, cu materiale sterile.',
@@ -138,6 +179,12 @@ export const services: Service[] = [
     slug: 'monitorizare-parametri',
     title: 'Monitorizarea parametrilor vitali',
     navTitle: 'Monitorizarea parametrilor vitali',
+    seo: {
+      heading: 'Monitorizarea pacientului la domiciliu în Constanța',
+      metaTitle: 'Monitorizare pacient la domiciliu Constanța | Home Medical AC',
+      metaDescription:
+        'Măsurarea tensiunii arteriale, a glicemiei și a saturației de oxigen la domiciliu, în Constanța, cu fișă de monitorizare pe care o puteți arăta medicului curant.',
+    },
     image: imgMonitorizare,
     alt: 'Măsurarea tensiunii arteriale unei paciente vârstnice, la masa din bucătărie',
     short: 'Tensiune, glicemie, saturație de oxigen. Urmărim evoluția și anunțăm medicul curant.',

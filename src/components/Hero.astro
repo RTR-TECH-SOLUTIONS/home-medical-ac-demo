@@ -3,23 +3,25 @@ import { url } from '../data/site';
 import { getImage } from 'astro:assets';
 import heroPoster from '../assets/media/hero-arrival.png';
 
-const poster = await getImage({ src: heroPoster, format: 'webp', width: 1920 });
+const poster = await getImage({ src: heroPoster, format: 'webp', width: 1920, quality: 62 });
 ---
 
 <section id="sus" class="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
+  {/*
+    Video-ul nu se descarcă la încărcarea paginii: sursele sunt puse din JS, după `load`,
+    doar pe ecrane mari și pe conexiuni bune. Pe telefon rămâne afișat posterul, ca să nu
+    consumăm 1 MB pe date mobile și ca să nu întârziem afișarea textului.
+  */}
   <video
     class="hero-video absolute inset-0 h-full w-full object-cover"
-    autoplay
     muted
     loop
     playsinline
-    preload="metadata"
+    preload="none"
     poster={poster.src}
     aria-hidden="true"
-  >
-    <source src={url('/media/hero.webm')} type="video/webm" />
-    <source src={url('/media/hero.mp4')} type="video/mp4" />
-  </video>
+    data-webm={url('/media/hero.webm')}
+    data-mp4={url('/media/hero.mp4')}></video>
   <div
     class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-black/25"
     aria-hidden="true"
@@ -28,7 +30,7 @@ const poster = await getImage({ src: heroPoster, format: 'webp', width: 1920 });
 
   <div class="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-36 md:px-8 md:pb-20">
     <h1 class="h-display max-w-3xl">
-      Îngrijire medicală profesionistă, acasă la dumneavoastră
+      Îngrijiri medicale la domiciliu, în Constanța
     </h1>
     <p class="mt-5 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">
       Echipa Home Medical AC vine la domiciliul pacientului, în Constanța și în tot

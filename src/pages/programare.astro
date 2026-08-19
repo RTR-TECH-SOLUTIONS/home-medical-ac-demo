@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import BookingForm from '../components/BookingForm.astro';
 import { site, whatsapp, url } from '../data/site';
+import { breadcrumbSchema } from '../data/schema';
 import imgVisit from '../assets/media/svc-perfuzie.png';
 
 const required = [
@@ -80,8 +81,9 @@ const availability = [
 ---
 
 <Layout
-  title="Programare - Home Medical AC"
-  description="Cum programați o vizită medicală la domiciliu în Constanța: ce date ne transmiteți, cum decurge de la primul mesaj până la vizită și ce documente pregătiți pentru prima vizită."
+  title="Programare îngrijiri la domiciliu Constanța | Home Medical AC"
+  description="Cum programați o vizită medicală la domiciliu în Constanța: ce date ne transmiteți, cum decurge de la primul mesaj până la vizită și ce documente pregătiți. Zilnic 8:00-22:30, la 0726 390 461."
+  schema={[breadcrumbSchema([{ name: 'Programare', path: '/programare' }])]}
 >
   <PageHeader
     title="Programați o vizită la domiciliu"

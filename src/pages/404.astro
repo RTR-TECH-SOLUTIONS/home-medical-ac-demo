@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { services } from '../data/services';
+import { site, whatsapp, url } from '../data/site';
+---
+
+<Layout
+  title="Pagina nu a fost găsită | Home Medical AC"
+  description="Pagina căutată nu există sau a fost mutată. Vedeți serviciile medicale la domiciliu din Constanța sau sunați la 0726 390 461."
+  noindex
+>
+  <PageHeader
+    title="Pagina nu a fost găsită"
+    breadcrumb="404"
+    lead="Adresa scrisă nu duce nicăieri, probabil pentru că pagina a fost mutată. Mai jos sunt serviciile noastre; dacă știți ce vă trebuie, sunați direct."
+  />
+
+  <section class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+    <h2 class="reveal h-section">Servicii medicale la domiciliu</h2>
+    <ul class="mt-8 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((service) => (
+          <li class="reveal border-t border-line pt-5">
+            <h3 class="font-serif text-lg font-semibold leading-snug">
+              <a href={url(`/servicii/${service.slug}`)} class="transition-colors hover:text-red">
+                {service.navTitle}
+              </a>
+            </h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-body">{service.short}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="reveal mt-12 flex flex-wrap items-center gap-3.5">
+      <a
+        href={whatsapp()}
+        target="_blank"
+        rel="noopener"
+        class="rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+      >
+        Scrieți-ne pe WhatsApp
+      </a>
+      <a
+        href={site.phoneHref}
+        class="rounded-[10px] border border-ink/20 px-6 py-3.5 text-[0.95rem] font-semibold transition-colors hover:border-ink/40"
+      >
+        Sunați: {site.phone}
+      </a>
+      <a href={url('/')} class="text-[0.95rem] font-semibold underline underline-offset-4">
+        Înapoi pe prima pagină
+      </a>
+    </div>
+  </section>
+</Layout>
