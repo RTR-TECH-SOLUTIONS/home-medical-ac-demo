@@ -5,9 +5,11 @@ interface Props {
   lead?: string;
   /** Eticheta paginii curente în firul Ariadnei. */
   breadcrumb: string;
+  /** Nivel intermediar, pentru paginile aflate sub o secțiune (ex. un serviciu). */
+  parent?: { label: string; href: string };
 }
 
-const { title, lead, breadcrumb } = Astro.props;
+const { title, lead, breadcrumb, parent } = Astro.props;
 ---
 
 <section class="bg-ink text-white">
@@ -16,6 +18,20 @@ const { title, lead, breadcrumb } = Astro.props;
       <ol class="flex flex-wrap items-center gap-2">
         <li><a href={url('/')} class="transition-colors hover:text-white">Acasă</a></li>
         <li aria-hidden="true" class="text-white/35">/</li>
+        {
+          parent && (
+            <>
+              <li>
+                <a href={url(parent.href)} class="transition-colors hover:text-white">
+                  {parent.label}
+                </a>
+              </li>
+              <li aria-hidden="true" class="text-white/35">
+                /
+              </li>
+            </>
+          )
+        }
         <li aria-current="page" class="text-white/85">{breadcrumb}</li>
       </ol>
     </nav>

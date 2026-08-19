@@ -1,6 +1,6 @@
 ---
 import Logo from './Logo.astro';
-import { nav, site, whatsapp, url } from '../data/site';
+import { nav, legal, site, whatsapp, url } from '../data/site';
 import { services } from '../data/services';
 ---
 
@@ -67,7 +67,7 @@ import { services } from '../data/services';
           services.map((service) => (
             <li>
               <a
-                href={url(`/servicii#${service.slug}`)}
+                href={url(`/servicii/${service.slug}`)}
                 class="text-body transition-colors hover:text-ink"
               >
                 {service.navTitle}
@@ -80,8 +80,33 @@ import { services } from '../data/services';
   </nav>
 
   <div class="border-t border-line">
-    <p class="mx-auto max-w-6xl px-5 py-5 text-xs text-body md:px-8">
-      © {new Date().getFullYear()} {site.name}. Toate drepturile rezervate.
-    </p>
+    <div
+      class="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-5 text-xs text-body md:flex-row md:items-center md:justify-between md:px-8"
+    >
+      <p>© {new Date().getFullYear()} {site.name}. Toate drepturile rezervate.</p>
+      <nav aria-label="Informații legale">
+        <ul class="flex flex-wrap gap-x-5 gap-y-2">
+          {
+            legal.map((item) => (
+              <li>
+                <a href={url(item.href)} class="transition-colors hover:text-ink">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+          <li>
+            <a
+              href="https://rtrsolutions.ro"
+              target="_blank"
+              rel="noopener"
+              class="transition-colors hover:text-ink"
+            >
+              Site realizat de RTR Tech Solutions
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </footer>

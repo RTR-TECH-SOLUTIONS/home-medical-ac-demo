@@ -5,6 +5,7 @@ import PageHeader from '../components/PageHeader.astro';
 import CtaBand from '../components/CtaBand.astro';
 import BookingForm from '../components/BookingForm.astro';
 import { site, whatsapp } from '../data/site';
+import { breadcrumbSchema, faqSchema } from '../data/schema';
 import imgVizita from '../assets/media/svc-monitorizare.png';
 
 /** Situațiile în care pacientul poate primi îngrijiri decontate. */
@@ -119,8 +120,12 @@ const faq = [
 ---
 
 <Layout
-  title="Servicii decontate de CAS - Home Medical AC"
-  description="Când se decontează îngrijirile medicale la domiciliu prin Casa de Asigurări de Sănătate: cine este eligibil, ce acte sunt necesare, cum se depune dosarul și ce se întâmplă dacă nu vă încadrați. Home Medical AC, Constanța."
+  title="Îngrijiri la domiciliu decontate de CAS Constanța | Home Medical AC"
+  description="Când se decontează îngrijirile medicale la domiciliu prin Casa de Asigurări de Sănătate Constanța: cine este eligibil, ce acte sunt necesare, cum se depune dosarul și ce se întâmplă dacă nu vă încadrați."
+  schema={[
+    breadcrumbSchema([{ name: 'Decontare CAS', path: '/decontare-cas' }]),
+    faqSchema(faq.map((item) => ({ q: item.q, a: item.a }))),
+  ]}
 >
   <PageHeader
     title="Decontarea prin Casa de Asigurări"

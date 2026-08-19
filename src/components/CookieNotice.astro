@@ -1,0 +1,60 @@
+---
+import { url } from '../data/site';
+---
+
+{/*
+  Site-ul nu are analytics și nu setează cookie-uri de urmărire. Bannerul e cerut explicit
+  de clientă și rămâne pur informativ: singurul lucru stocat local este chiar alegerea de aici.
+*/}
+<div
+  id="cookie-notice"
+  class="fixed inset-x-0 bottom-0 z-[60] hidden border-t border-white/15 bg-ink text-white"
+  role="region"
+  aria-label="Informare despre cookie-uri"
+>
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 md:flex-row md:items-center md:justify-between md:gap-8 md:px-8"
+  >
+    <p class="max-w-3xl text-[0.9rem] leading-relaxed text-white/80">
+      Folosim doar stocare strict necesară. Nu avem instrumente de urmărire și nu colectăm date
+      despre navigarea dumneavoastră.{' '}
+      <a
+        href={url('/politica-de-cookies')}
+        class="font-semibold text-white underline underline-offset-4">Politica de cookies</a
+      >.
+    </p>
+    <button
+      id="cookie-accept"
+      type="button"
+      class="shrink-0 rounded-[10px] bg-red px-6 py-3 text-[0.9rem] font-semibold text-white transition-colors hover:bg-red-dark"
+    >
+      Am înțeles
+    </button>
+  </div>
+</div>
+
+<script>
+  const KEY = 'hma-cookie-notice';
+  const notice = document.getElementById('cookie-notice');
+  const accept = document.getElementById('cookie-accept');
+
+  let seen = false;
+  try {
+    seen = localStorage.getItem(KEY) === '1';
+  } catch {
+    // Stocare blocată (navigare privată): arătăm bannerul, dar nu insistăm.
+    seen = true;
+  }
+
+  if (notice && !seen) {
+    notice.classList.remove('hidden');
+    accept?.addEventListener('click', () => {
+      notice.classList.add('hidden');
+      try {
+        localStorage.setItem(KEY, '1');
+      } catch {
+        /* fără stocare, bannerul reapare la următoarea vizită */
+      }
+    });
+  }
+</script>

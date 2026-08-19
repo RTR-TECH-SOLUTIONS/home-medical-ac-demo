@@ -1,15 +1,26 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 import tailwindcss from '@tailwindcss/vite';
 
-// Preview pe GitHub Pages: site-ul e servit dintr-un subfolder, de aceea `base`.
-// La mutarea pe hosting propriu (Hostinger), se scoate `base` sau se pune '/'.
-// Toate căile interne trec prin helper-ul `url()` din src/data/site.ts, deci nu e nevoie
-// de alte modificări.
+// Site-ul de producție rulează pe domeniul propriu, în rădăcină.
+// Pentru preview-ul de pe GitHub Pages (servit dintr-un subfolder) se pun în CI
+// variabilele SITE_URL și SITE_BASE. Toate căile interne trec prin helper-ul
+// `url()` din src/data/site.ts, deci nu e nevoie de alte modificări.
+const site = process.env.SITE_URL || 'https://homemedicalac.ro';
+const base = process.env.SITE_BASE || '/';
+
 export default defineConfig({
-  site: 'https://rtr-tech-solutions.github.io',
-  base: '/home-medical-ac-demo',
+  site,
+  base,
+  integrations: [
+    sitemap({
+      // Paginile legale sunt pe `noindex`, deci nu au ce căuta nici în sitemap.
+      filter: (page) =>
+        !/\/(politica-de-cookies|politica-de-confidentialitate|termeni-si-conditii)\/?$/.test(page),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()]
   }

@@ -1,0 +1,113 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site, url } from '../data/site';
+
+const identificare = [site.cui && `CUI ${site.cui}`, site.regCom && `Reg. Com. ${site.regCom}`]
+  .filter(Boolean)
+  .join(', ');
+---
+
+<Legal
+  title="Politica de confidențialitate"
+  metaTitle="Politica de confidențialitate | Home Medical AC"
+  description="Cum prelucrează Home Medical AC datele pacienților și ale aparținătorilor: ce date primim, pe ce temei, cui le transmitem și ce drepturi aveți conform GDPR."
+  breadcrumb="Confidențialitate"
+  updated="20 august 2026"
+  noindex
+>
+  <p>
+    Documentul de față explică modul în care {site.legalName} prelucrează datele cu caracter
+    personal ale pacienților și ale aparținătorilor care ne contactează sau cărora le acordăm
+    îngrijiri medicale la domiciliu.
+  </p>
+
+  <h2>Cine prelucrează datele</h2>
+  <p>
+    Operatorul datelor este <strong>{site.legalName}</strong>{identificare && `, ${identificare}`},
+    cu sediul în {site.dispatchAddress}.
+  </p>
+  <ul>
+    <li>Telefon: <a href={site.phoneHref}>{site.phone}</a></li>
+    <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>
+  </ul>
+
+  <h2>Ce date prelucrăm și de unde le avem</h2>
+  <p>
+    Site-ul acesta nu colectează date de la vizitatori. Nu avem formulare care să trimită
+    informații către serverele noastre, nu folosim instrumente de analiză a traficului și nu
+    construim profiluri. Formularul de programare doar pregătește, în browserul dumneavoastră, un
+    mesaj pe care îl trimiteți dacă doriți, din contul dumneavoastră de WhatsApp.
+  </p>
+  <p>Prelucrăm, așadar, doar datele pe care ni le transmiteți dumneavoastră direct:</p>
+  <ul>
+    <li>date de identificare și de contact: numele pacientului și al aparținătorului, telefon, adresa la care se face vizita;</li>
+    <li>date privind sănătatea: diagnosticul, recomandarea medicului, scrisoarea de externare, tratamentul prescris, evoluția îngrijirilor;</li>
+    <li>date necesare decontării: calitatea de asigurat, codul numeric personal și documentele cerute de Casa de Asigurări de Sănătate, atunci când solicitați îngrijiri decontate.</li>
+  </ul>
+
+  <h2>În ce scop și pe ce temei</h2>
+  <ul>
+    <li>
+      <strong>Pentru a răspunde solicitării și a stabili vizita</strong> - temeiul este executarea
+      contractului și demersurile făcute la cererea dumneavoastră înainte de acesta
+      (art. 6 alin. 1 lit. b din Regulamentul general privind protecția datelor).
+    </li>
+    <li>
+      <strong>Pentru acordarea îngrijirilor medicale</strong> - datele privind sănătatea se
+      prelucrează în scopul asistenței medicale, de către personal ținut de secretul profesional
+      (art. 9 alin. 2 lit. h din Regulament).
+    </li>
+    <li>
+      <strong>Pentru obligațiile legale</strong> - documentele de îngrijire, raportările către
+      Casa de Asigurări de Sănătate și evidențele contabile (art. 6 alin. 1 lit. c).
+    </li>
+  </ul>
+
+  <h2>Cui transmitem datele</h2>
+  <ul>
+    <li>Casei Județene de Asigurări de Sănătate Constanța, pentru dosarul și decontarea vizitelor;</li>
+    <li>laboratorului partener, pentru probele recoltate la domiciliu;</li>
+    <li>medicului de familie sau medicului specialist care urmărește pacientul;</li>
+    <li>
+      furnizorului de găzduire a site-ului și, dacă ne scrieți pe WhatsApp sau pe Facebook,
+      Meta Platforms Ireland Ltd., în calitate de furnizor al acelor servicii. Conversația
+      respectivă se supune și politicilor Meta.
+    </li>
+  </ul>
+  <p>Nu vindem date și nu le folosim în scopuri de marketing.</p>
+
+  <h2>Cât timp le păstrăm</h2>
+  <p>
+    Documentele medicale și cele legate de decontare se păstrează pe durata prevăzută de
+    legislația sanitară și de cea contabilă. Mesajele primite pe telefon sau pe WhatsApp, dacă
+    nu se ajunge la o programare, sunt șterse când nu mai sunt necesare.
+  </p>
+
+  <h2>Ce drepturi aveți</h2>
+  <p>
+    Aveți dreptul de acces la date, de rectificare, de ștergere, de restricționare a prelucrării,
+    de opoziție și de portabilitate, în condițiile prevăzute de Regulament. Le puteți exercita
+    scriindu-ne la <a href={`mailto:${site.email}`}>{site.email}</a> sau sunând la{' '}
+    <a href={site.phoneHref}>{site.phone}</a>. Vă răspundem în cel mult o lună.
+  </p>
+  <p>
+    Dacă apreciați că v-am încălcat drepturile, puteți depune o plângere la Autoritatea Națională
+    de Supraveghere a Prelucrării Datelor cu Caracter Personal, B-dul General Gheorghe Magheru
+    nr. 28-30, București, sau pe{' '}
+    <a href="https://www.dataprotection.ro" target="_blank" rel="noopener">dataprotection.ro</a>.
+  </p>
+
+  <h2>Securitate</h2>
+  <p>
+    Documentele pacienților sunt accesibile doar personalului implicat în îngrijire, iar
+    discuțiile despre starea pacientului se poartă numai cu acesta sau cu persoanele indicate de
+    el. Site-ul este servit prin conexiune criptată.
+  </p>
+
+  <h2>Modificări</h2>
+  <p>
+    Dacă modificăm acest document, publicăm aici versiunea nouă, cu data actualizării. Vedeți și{' '}
+    <a href={url('/politica-de-cookies')}>politica de cookies</a> și{' '}
+    <a href={url('/termeni-si-conditii')}>termenii și condițiile</a>.
+  </p>
+</Legal>

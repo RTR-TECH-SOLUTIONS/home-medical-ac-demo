@@ -1,0 +1,163 @@
+---
+import { Picture } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services, type Service } from '../../data/services';
+import { site, whatsapp, url } from '../../data/site';
+import { breadcrumbSchema, serviceSchema } from '../../data/schema';
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const others = services.filter((item) => item.slug !== service.slug);
+const path = `/servicii/${service.slug}`;
+
+const schema = [
+  breadcrumbSchema([
+    { name: 'Servicii', path: '/servicii' },
+    { name: service.navTitle, path },
+  ]),
+  serviceSchema({
+    name: service.seo.heading,
+    description: service.seo.metaDescription,
+    path,
+  }),
+];
+---
+
+<Layout title={service.seo.metaTitle} description={service.seo.metaDescription} schema={schema}>
+  <PageHeader
+    title={service.seo.heading}
+    breadcrumb={service.navTitle}
+    parent={{ label: 'Servicii', href: '/servicii' }}
+    lead={service.short}
+  />
+
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-16">
+      <div class="reveal">
+        <p class="lead">{service.intro}</p>
+
+        <h2 class="mt-10 h-card">Ce cuprinde vizita</h2>
+        <ul class="mt-4 border-t border-ink/10">
+          {
+            service.includes.map((item) => (
+              <li class="border-b border-ink/10 py-3 text-[0.95rem] leading-relaxed text-body">
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="mt-9 border-l-2 border-red pl-5">
+          <h2 class="h-card">{service.whenTitle}</h2>
+          <p class="mt-2 text-[0.95rem] leading-relaxed text-body">{service.when}</p>
+        </div>
+
+        <p class="mt-7 text-sm leading-relaxed text-body">
+          <span class="font-semibold text-ink">Bine de știut.</span>
+          {service.note}
+        </p>
+
+        <div class="mt-9 flex flex-wrap items-center gap-3.5">
+          <a
+            href={whatsapp(
+              `Bună ziua! Aș dori o programare pentru ${service.navTitle.toLowerCase()} la domiciliu.`
+            )}
+            target="_blank"
+            rel="noopener"
+            class="rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+          >
+            Cereți o programare
+          </a>
+          <a
+            href={site.phoneHref}
+            class="rounded-[10px] border border-ink/20 px-6 py-3.5 text-[0.95rem] font-semibold transition-colors hover:border-ink/40"
+          >
+            Sunați: {site.phone}
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <Picture
+          src={service.image}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          alt={service.alt}
+          widths={[560, 840, 1120]}
+          sizes="(min-width: 1024px) 44vw, 100vw"
+          loading="eager"
+          class="aspect-[4/3] w-full rounded-xl border border-line object-cover"
+        />
+
+        <aside class="mt-8 rounded-xl border border-line bg-cream p-7">
+          <h2 class="h-card">Cine plătește vizita</h2>
+          <p class="mt-3 text-[0.95rem] leading-relaxed text-body">
+            Pentru pacienții asigurați și eligibili, îngrijirile la domiciliu se decontează prin
+            Casa de Asigurări de Sănătate Constanța, pe baza recomandării medicului. Fără dosar,
+            aceleași servicii se pot face contra cost, cu tariful comunicat înainte de programare.
+          </p>
+          <a
+            href={url('/decontare-cas')}
+            class="mt-5 inline-block text-[0.95rem] font-semibold underline underline-offset-4 transition-colors hover:text-red"
+          >
+            Condiții, acte și pașii pentru decontare
+          </a>
+        </aside>
+
+        <aside class="mt-6 rounded-xl border border-line p-7">
+          <h2 class="h-card">Unde ne deplasăm</h2>
+          <p class="mt-3 text-[0.95rem] leading-relaxed text-body">
+            În municipiul Constanța, în zona metropolitană și pe litoral, de la Corbu până la
+            Mangalia.
+          </p>
+          <a
+            href={url('/zona-acoperita')}
+            class="mt-5 inline-block text-[0.95rem] font-semibold underline underline-offset-4 transition-colors hover:text-red"
+          >
+            Vedeți lista localităților
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-cream">
+    <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+      <h2 class="reveal h-section">Alte servicii pe care le facem acasă la pacient</h2>
+      <ul class="mt-9 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          others.map((item) => (
+            <li class="reveal border-t border-line pt-5">
+              <h3 class="font-serif text-lg font-semibold leading-snug">
+                <a
+                  href={url(`/servicii/${item.slug}`)}
+                  class="transition-colors hover:text-red"
+                >
+                  {item.navTitle}
+                </a>
+              </h3>
+              <p class="mt-2 text-[0.95rem] leading-relaxed text-body">{item.short}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Programați o vizită la domiciliu"
+    text="Ne spuneți numele pacientului, localitatea și ce a recomandat medicul. Vă sunăm înapoi și stabilim ziua și intervalul orar."
+  />
+</Layout>

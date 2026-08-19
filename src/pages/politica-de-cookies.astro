@@ -1,0 +1,50 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site, url } from '../data/site';
+---
+
+<Legal
+  title="Politica de cookies"
+  metaTitle="Politica de cookies | Home Medical AC"
+  description="Ce stochează site-ul Home Medical AC în browserul dumneavoastră: doar preferința legată de bannerul de informare. Fără cookie-uri de analiză sau de publicitate."
+  breadcrumb="Cookies"
+  updated="20 august 2026"
+  noindex
+>
+  <p>
+    Site-ul {site.name} nu folosește cookie-uri de analiză, de publicitate sau de urmărire. Nu
+    avem Google Analytics, nu avem pixeli de rețele sociale și nu urmărim ce pagini vizitați.
+  </p>
+
+  <h2>Ce se stochează, totuși, în browser</h2>
+  <p>
+    Un singur lucru: alegerea dumneavoastră de a închide bannerul de informare. Este salvată
+    local, în browser (în spațiul numit <em>localStorage</em>), sub cheia
+    <strong>hma-cookie-notice</strong>, ca să nu vă mai apară bannerul la fiecare pagină.
+    Informația rămâne pe dispozitivul dumneavoastră, nu ajunge la noi și nu spune nimic despre
+    cine sunteți.
+  </p>
+
+  <h2>Servicii externe</h2>
+  <p>
+    Fonturile și restul resurselor site-ului sunt găzduite pe același server cu site-ul, deci
+    simpla navigare nu trimite date către alți furnizori.
+  </p>
+  <p>
+    Butoanele de WhatsApp și linkul către pagina de Facebook vă duc, la clic, pe platformele
+    Meta. Din acel moment se aplică politicile lor de cookie-uri, nu aceasta.
+  </p>
+
+  <h2>Cum ștergeți datele stocate</h2>
+  <p>
+    Puteți șterge oricând stocarea locală din setările browserului, de la secțiunea privind
+    datele site-urilor. Bannerul de informare va reapărea la următoarea vizită, iar site-ul va
+    funcționa normal.
+  </p>
+
+  <h2>Întrebări</h2>
+  <p>
+    Ne puteți scrie la <a href={`mailto:${site.email}`}>{site.email}</a>. Vedeți și{' '}
+    <a href={url('/politica-de-confidentialitate')}>politica de confidențialitate</a>.
+  </p>
+</Legal>

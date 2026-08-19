@@ -1,4 +1,4 @@
-# Preview pentru client - nu se indexează.
-# Se înlocuiește la lansarea proiectului real.
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://homemedicalac.ro/sitemap-index.xml

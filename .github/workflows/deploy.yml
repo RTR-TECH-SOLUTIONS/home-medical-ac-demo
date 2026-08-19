@@ -1,5 +1,9 @@
 name: Deploy demo pe GitHub Pages
 
+# Site-ul de producție rulează pe homemedicalac.ro, pe Hostinger. Acest workflow ține doar
+# copia de pe GitHub Pages, folosită ca previzualizare pentru clientă: se construiește cu alt
+# `site`/`base` și cu robots.txt care interzice indexarea, ca să nu concureze cu domeniul real.
+
 on:
   push:
     branches: [main]
@@ -20,10 +24,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Blochează indexarea copiei de preview
+        run: |
+          printf 'User-agent: *\nDisallow: /\n' > public/robots.txt
+
       - name: Build Astro
         uses: withastro/action@v3
         with:
           node-version: 24
+        env:
+          SITE_URL: https://rtr-tech-solutions.github.io
+          SITE_BASE: /home-medical-ac-demo
 
   deploy:
     needs: build

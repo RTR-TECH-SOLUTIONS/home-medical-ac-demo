@@ -3,11 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import BookingForm from '../components/BookingForm.astro';
 import { site, whatsapp, url } from '../data/site';
+import { breadcrumbSchema } from '../data/schema';
 ---
 
 <Layout
-  title="Contact - Home Medical AC"
-  description="Date de contact Home Medical AC: telefon și WhatsApp 0726 390 461, email și zona deservită. Programări pentru servicii medicale la domiciliu în Constanța și zonele limitrofe."
+  title="Contact Home Medical AC Constanța | 0726 390 461"
+  description="Date de contact Home Medical AC Constanța: telefon și WhatsApp 0726 390 461, email, program zilnic 8:00-22:30 și zona deservită. Programări pentru îngrijiri medicale la domiciliu."
+  schema={[breadcrumbSchema([{ name: 'Contact', path: '/contact' }])]}
 >
   <PageHeader
     title="Contact"

@@ -1,0 +1,96 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site, url } from '../data/site';
+
+const identificare = [site.cui && `CUI ${site.cui}`, site.regCom && `Reg. Com. ${site.regCom}`]
+  .filter(Boolean)
+  .join(', ');
+---
+
+<Legal
+  title="Termeni și condiții"
+  metaTitle="Termeni și condiții | Home Medical AC"
+  description="Condițiile în care puteți folosi site-ul Home Medical AC și în care se acordă serviciile de îngrijiri medicale la domiciliu în Constanța."
+  breadcrumb="Termeni"
+  updated="20 august 2026"
+  noindex
+>
+  <p>
+    Site-ul {site.name} este administrat de <strong>{site.legalName}</strong>{
+      identificare && `, ${identificare}`
+    }, cu sediul în {site.dispatchAddress}. Folosind site-ul, sunteți de acord cu cele de mai jos.
+  </p>
+
+  <h2>Ce găsiți pe site</h2>
+  <p>
+    Site-ul prezintă serviciile de îngrijiri medicale la domiciliu pe care le oferim în Constanța
+    și în localitățile din jur. Informațiile au caracter general și nu înlocuiesc consultul
+    medical, diagnosticul sau recomandarea unui medic.
+  </p>
+  <p>
+    <strong>Nu suntem serviciu de urgență.</strong> Nu avem ambulanță și nu intervenim în
+    situații care pun viața în pericol. În aceste cazuri se sună la <a href="tel:112">112</a>.
+  </p>
+
+  <h2>Cum se face o programare</h2>
+  <p>
+    Programările se fac telefonic sau pe WhatsApp, în intervalul {site.schedule}. Un mesaj trimis
+    prin butoanele de pe site nu constituie, prin el însuși, o programare confirmată: vizita se
+    consideră stabilită doar după ce discutăm cu dumneavoastră și confirmăm ziua și intervalul
+    orar.
+  </p>
+  <p>
+    Manoperele medicale se efectuează pe baza recomandării medicului de familie sau a medicului
+    specialist, în limitele competențelor personalului nostru. Ne rezervăm dreptul de a nu prelua
+    un caz care nu poate fi îngrijit în siguranță la domiciliu și de a îndruma pacientul către
+    unitatea medicală potrivită.
+  </p>
+
+  <h2>Decontarea prin Casa de Asigurări</h2>
+  <p>
+    Îngrijirile la domiciliu se pot deconta prin Casa de Asigurări de Sănătate pentru pacienții
+    asigurați și eligibili, pe baza recomandării medicale și în limita numărului de zile
+    aprobate și a fondurilor alocate casei județene. Eligibilitatea nu este un drept automat și
+    se stabilește de Casa de Asigurări, nu de noi. Detaliile sunt pe pagina{' '}
+    <a href={url('/decontare-cas')}>Decontare CAS</a>.
+  </p>
+
+  <h2>Tarife</h2>
+  <p>
+    Pentru serviciile care nu se decontează, tariful vizitei se comunică înainte de programare,
+    în funcție de serviciul solicitat și de localitate. Nu percepem costuri necomunicate în
+    prealabil.
+  </p>
+
+  <h2>Proprietate intelectuală</h2>
+  <p>
+    Textele, fotografiile, sigla și structura site-ului aparțin {site.legalName}, respectiv
+    autorilor lor, și nu pot fi preluate fără acord scris.
+  </p>
+
+  <h2>Limitarea răspunderii</h2>
+  <p>
+    Ne străduim ca informațiile de pe site să fie corecte și actuale, însă reglementările privind
+    decontarea se modifică periodic. Nu răspundem pentru deciziile luate exclusiv pe baza
+    informațiilor de pe site, fără consultarea medicului sau fără o discuție cu noi.
+  </p>
+
+  <h2>Datele personale</h2>
+  <p>
+    Modul în care prelucrăm datele este descris în{' '}
+    <a href={url('/politica-de-confidentialitate')}>politica de confidențialitate</a>, iar ce se
+    stochează în browser, în <a href={url('/politica-de-cookies')}>politica de cookies</a>.
+  </p>
+
+  <h2>Legea aplicabilă</h2>
+  <p>
+    Acestor termeni li se aplică legea română. Eventualele neînțelegeri se rezolvă pe cale
+    amiabilă, iar dacă nu este posibil, de instanțele competente de la sediul nostru.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Telefon <a href={site.phoneHref}>{site.phone}</a>, email{' '}
+    <a href={`mailto:${site.email}`}>{site.email}</a>.
+  </p>
+</Legal>

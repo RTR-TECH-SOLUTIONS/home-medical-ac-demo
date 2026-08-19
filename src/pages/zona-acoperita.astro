@@ -4,12 +4,14 @@ import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { site, whatsapp, areaGroups, url } from '../data/site';
+import { breadcrumbSchema } from '../data/schema';
 import heroArrival from '../assets/media/hero-arrival.png';
 ---
 
 <Layout
-  title="Zona acoperită - Home Medical AC"
-  description="Localitățile în care ne deplasăm cu servicii medicale la domiciliu: municipiul Constanța, zona metropolitană și litoralul. Cum stabilim ora vizitei și ce facem când localitatea dumneavoastră nu este pe listă."
+  title="Îngrijiri la domiciliu în Constanța, Năvodari, Ovidiu, Mangalia | Home Medical AC"
+  description="Localitățile în care ne deplasăm cu servicii medicale la domiciliu: municipiul Constanța, zona metropolitană și litoralul, de la Corbu până la Mangalia. Cum stabilim ora vizitei."
+  schema={[breadcrumbSchema([{ name: 'Zona acoperită', path: '/zona-acoperita' }])]}
 >
   <PageHeader
     title="Unde ne deplasăm"
