@@ -3,6 +3,25 @@
 Site demo pentru Home Medical AC, servicii medicale la domiciliu, Constanța.
 Stack: Astro 5 + Tailwind 4, static. Rulare: `npm install && npx astro dev --background` → http://localhost:4321
 
+## Link de trimis clientei
+
+**https://rtr-tech-solutions.github.io/home-medical-ac-demo/**
+
+Găzduit pe GitHub Pages, din repo-ul `RTR-TECH-SOLUTIONS/home-medical-ac-demo`.
+Orice `git push` pe `main` reconstruiește și republică automat site-ul
+(`.github/workflows/deploy.yml`, Node 24 — Astro 5 cere minim 22.12).
+
+Preview-ul are `noindex, nofollow` în `<head>` și `Disallow: /` în `robots.txt`,
+ca să nu ajungă în Google și să nu fie confundat cu site-ul oficial al clientei.
+**Ambele se scot la lansarea proiectului real.**
+
+### Mutarea pe hosting propriu (Hostinger)
+
+GitHub Pages servește site-ul dintr-un subfolder, de aceea `base: '/home-medical-ac-demo'`
+în `astro.config.mjs`. Pe domeniul clientei, unde site-ul stă în rădăcină, se șterge linia
+`base` (și `site` se schimbă în domeniul real). Nimic altceva: toate căile interne trec prin
+helper-ul `url()` din `src/data/site.ts`, care se adaptează singur.
+
 ## Structura site-ului
 
 Homepage-ul conține toate secțiunile, iar fiecare item din meniu are și pagina lui dedicată,
