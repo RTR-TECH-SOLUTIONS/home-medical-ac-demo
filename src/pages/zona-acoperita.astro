@@ -1,0 +1,200 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, whatsapp, areaGroups, url } from '../data/site';
+import heroArrival from '../assets/media/hero-arrival.png';
+---
+
+<Layout
+  title="Zona acoperită - Home Medical AC"
+  description="Localitățile în care ne deplasăm cu servicii medicale la domiciliu: municipiul Constanța, zona metropolitană și litoralul. Cum stabilim ora vizitei și ce facem când localitatea dumneavoastră nu este pe listă."
+>
+  <PageHeader
+    title="Unde ne deplasăm"
+    breadcrumb="Zona acoperită"
+    lead="Venim acasă la pacient, în Constanța și în localitățile din jur. Mai jos găsiți zonele în care ajungem cel mai des și ce se întâmplă dacă localitatea dumneavoastră nu apare în listă."
+  />
+
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">
+      <div class="reveal">
+        <h2 class="h-section">Constanța, zona metropolitană și litoralul</h2>
+        <p class="lead mt-5">
+          Lucrăm exclusiv la domiciliul pacientului. Asistentul vine cu materialele necesare
+          pentru vizita respectivă, iar pacientul nu trebuie să se deplaseze, să aștepte la
+          rând sau să caute pe cineva care să îl ducă la cabinet.
+        </p>
+        {/* TODO(real): de confirmat cu clientul frecvența deplasărilor în zona metropolitană și pe litoral */}
+        <p class="lead mt-4">
+          Acoperim municipiul Constanța și localitățile din zona metropolitană. Pe litoral, la
+          nord și la sud, ajungem în funcție de ruta echipei din ziua respectivă, așa că acolo
+          este bine să ne anunțați cu o zi înainte.
+        </p>
+        {/* TODO(real): de confirmat cu clientul dacă se percepe taxă de deplasare în afara municipiului și cum se comunică */}
+        <p
+          class="mt-8 rounded-xl border border-line border-l-2 border-l-red bg-surface p-6 text-[0.95rem] leading-relaxed text-body"
+        >
+          La telefon vă spunem, înainte de programare, cât costă vizita și dacă se adaugă ceva
+          pentru deplasarea în afara municipiului. Nu vă punem în situația să aflați suma abia
+          la ușă.
+        </p>
+      </div>
+      <div class="reveal">
+        <Image
+          src={heroArrival}
+          alt="Asistentă medicală în uniformă roșie, cu geanta medicală în mână, ajungând la locuința unui pacient"
+          widths={[560, 840, 1200]}
+          sizes="(min-width: 1024px) 46vw, 100vw"
+          class="aspect-[4/3] w-full rounded-xl object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-cream">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <div class="reveal max-w-2xl">
+        <h2 class="h-section">Localitățile în care ajungem</h2>
+        <p class="lead mt-4">
+          Sunt zonele în care avem cele mai multe vizite. Dacă pacientul locuiește într-una
+          dintre ele, putem stabili programarea de la primul telefon.
+        </p>
+      </div>
+
+      {/* TODO(real): lista de localități se confirmă cu clientul */}
+      <div class="mt-14">
+        {
+          areaGroups.map((group, i) => (
+            <div
+              class:list={[
+                'reveal grid gap-6 lg:grid-cols-[16rem_1fr] lg:gap-14',
+                i > 0 && 'mt-12 border-t border-line pt-12 md:mt-14 md:pt-14',
+              ]}
+            >
+              <div>
+                <h3 class="h-card">{group.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-body">{group.note}</p>
+              </div>
+              <ul class="flex flex-wrap content-start gap-2.5">
+                {group.places.map((place) => (
+                  <li class="rounded-[10px] border border-line bg-surface px-4 py-2 text-sm font-medium">
+                    {place}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+      <div class="reveal grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-end lg:gap-16">
+        <div>
+          <h2 class="h-section">Nu găsiți localitatea dumneavoastră?</h2>
+          {/* TODO(real): de confirmat cu clientul în ce alte localități din județ se deplasează efectiv și în ce condiții */}
+          <p class="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
+            Lista de mai sus cuprinde localitățile în care mergem cel mai des, nu tot județul.
+            Mergem și în alte localități din județul Constanța, dar acolo depinde de ruta
+            echipei din ziua respectivă și de cât de des trebuie repetată vizita. Sunați-ne,
+            spuneți-ne localitatea și de ce are nevoie pacientul, iar noi vă spunem direct
+            dacă îl putem prelua și din ce zi.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3.5">
+          <a
+            href={site.phoneHref}
+            class="rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+          >
+            Sunați: {site.phone}
+          </a>
+          <a
+            href={whatsapp(
+              'Bună ziua! Pacientul locuiește în afara Constanței. Puteți veni la domiciliu?'
+            )}
+            target="_blank"
+            rel="noopener"
+            class="rounded-[10px] border border-white/30 px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Întrebați-ne pe WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="reveal max-w-2xl">
+      <h2 class="h-section">Cum stabilim ora vizitei</h2>
+      <p class="lead mt-4">
+        Într-o zi obișnuită, un asistent trece pe la mai multe adrese, în ordinea în care se
+        pot lega între ele. De aceea vă dăm un interval orar, nu o oră fixă la minut. În
+        schimb, vă sunăm de fiecare dată înainte să pornim spre dumneavoastră.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-x-14 gap-y-10 md:grid-cols-2">
+      <div class="reveal border-t border-line pt-5">
+        <h3 class="font-serif text-lg font-semibold leading-snug">
+          Recoltările intră primele în rută
+        </h3>
+        {/* TODO(real): de confirmat cu clientul intervalul orar în care se fac recoltările */}
+        <p class="mt-2 text-[0.95rem] leading-relaxed text-body">
+          Probele de sânge se recoltează dimineața, pe nemâncate, așa că vizitele pentru
+          analize sunt programate la începutul zilei. Restul rutei se așază după ele.
+        </p>
+      </div>
+
+      <div class="reveal border-t border-line pt-5">
+        <h3 class="font-serif text-lg font-semibold leading-snug">
+          Primiți un interval, nu o oră exactă
+        </h3>
+        {/* TODO(real): de confirmat cu clientul lungimea intervalului comunicat pacientului */}
+        <p class="mt-2 text-[0.95rem] leading-relaxed text-body">
+          La programare vă comunicăm intervalul în care ajunge asistentul, de regulă de două
+          ore. Dacă traficul sau o vizită anterioară ne dă programul peste cap, vă sunăm și vă
+          spunem la ce oră ajungem.
+        </p>
+      </div>
+
+      <div class="reveal border-t border-line pt-5">
+        <h3 class="font-serif text-lg font-semibold leading-snug">Vă sunăm înainte să ajungem</h3>
+        {/* TODO(real): de confirmat cu clientul cu cât timp înainte sună asistentul */}
+        <p class="mt-2 text-[0.95rem] leading-relaxed text-body">
+          Asistentul telefonează înainte de a porni spre dumneavoastră, ca pacientul să fie
+          pregătit și ca cineva din familie să poată deschide ușa.
+        </p>
+      </div>
+
+      <div class="reveal border-t border-line pt-5">
+        <h3 class="font-serif text-lg font-semibold leading-snug">
+          La tratamentele repetate păstrăm același interval
+        </h3>
+        {/* TODO(real): de confirmat cu clientul dacă tratamentele repetate pot primi oră fixă */}
+        <p class="mt-2 text-[0.95rem] leading-relaxed text-body">
+          La perfuzii, injecții sau pansamente care se repetă mai multe zile la rând, venim în
+          același interval în fiecare zi, ca pacientul să își poată organiza mesele și odihna.
+        </p>
+      </div>
+    </div>
+
+    {/* TODO(real): de confirmat cu clientul cum sunt grupate vizitele în afara municipiului (zile fixe pe zone?) */}
+    <p class="reveal mt-10 max-w-2xl text-[0.95rem] leading-relaxed text-body">
+      În localitățile din afara municipiului grupăm vizitele pe zile, ca să nu plimbăm
+      degeaba echipa. Dacă pacientul are nevoie de o vizită într-o anumită zi a săptămânii,
+      spuneți-ne de la început și încercăm să o prindem în rută. Cum decurge totul, de la
+      primul telefon până la prima vizită, este descris pe
+      <a href={url('/programare')} class="font-semibold text-ink underline underline-offset-4">
+        pagina de programare</a>.
+    </p>
+  </section>
+
+  <CtaBand
+    title="Verificați dacă ajungem la dumneavoastră"
+    text="Spuneți-ne localitatea, numele pacientului și serviciul de care are nevoie. Vă răspundem clar dacă ne deplasăm acolo și în ce zile."
+  />
+</Layout>

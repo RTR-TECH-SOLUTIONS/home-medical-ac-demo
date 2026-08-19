@@ -1,0 +1,286 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BookingForm from '../components/BookingForm.astro';
+import { site, whatsapp, url } from '../data/site';
+import imgVisit from '../assets/media/svc-perfuzie.png';
+
+const required = [
+  {
+    term: 'Numele pacientului',
+    text: 'Persoana care are nevoie de îngrijire, nu neapărat cea care ne scrie. Ne ajută să știm și vârsta.',
+  },
+  {
+    term: 'Localitatea',
+    text: 'Constanța sau localitatea din județ, cu zona ori cartierul. În funcție de ea vă propunem intervalul orar cel mai apropiat.',
+  },
+  {
+    term: 'Serviciul solicitat',
+    text: 'Recoltare, perfuzie, pansament, consultație. Dacă nu știți sigur care se potrivește, descrieți pe scurt starea pacientului și vă spunem noi.',
+  },
+];
+
+const steps = [
+  {
+    title: 'Ne scrieți sau ne sunați',
+    text: 'Pe WhatsApp, la telefon sau prin formularul de mai jos, care deschide conversația cu mesajul deja completat. Dacă vă este mai ușor să povestiți situația, sunați: ascultăm și punem noi întrebările.',
+  },
+  {
+    title: 'Vă sunăm înapoi și stabilim vizita',
+    text: 'Vă întrebăm ce a recomandat medicul, ce tratament urmează pacientul și dacă se poate deplasa. Vă spunem dacă serviciul intră la decontare prin Casa de Asigurări sau este contra cost, apoi fixăm ziua și intervalul orar.',
+  },
+  {
+    title: 'Venim la domiciliu',
+    text: 'Asistentul ajunge în intervalul stabilit, cu materialele sterile necesare procedurii. Consemnăm ce s-a făcut și valorile măsurate, iar după vizită raportăm medicului curant și stabilim împreună când este nevoie de următoarea vizită.',
+  },
+];
+
+const prepare = [
+  {
+    term: 'Actul de identitate al pacientului',
+    text: 'Și cardul de sănătate, dacă serviciul urmează să fie decontat prin Casa de Asigurări.',
+  },
+  {
+    term: 'Biletul de externare sau scrisoarea medicală',
+    text: 'Documentul din care reies diagnosticul și indicațiile medicului. Este cel mai util lucru pe care îl putem citi la prima vizită.',
+  },
+  {
+    term: 'Rețetele și lista tratamentului curent',
+    text: 'Inclusiv medicamentele luate zilnic pentru alte afecțiuni și alergiile cunoscute, dacă există.',
+  },
+  {
+    term: 'Analizele recente',
+    text: 'Ultimele buletine de analize, chiar dacă sunt de acum câteva luni. Contează evoluția, nu doar valoarea de azi.',
+  },
+  {
+    term: 'Un loc curat și bine luminat',
+    text: 'O masă sau o noptieră liberă lângă pat și lumină bună. Pentru recoltări ajută un scaun cu spătar și un braț la care se ajunge ușor.',
+  },
+  {
+    term: 'Accesul în locuință',
+    text: 'Codul de la interfon, etajul, dacă liftul funcționează, unde se poate opri mașina. Sunt lucruri mărunte care ne scutesc de zece minute pierdute la ușă.',
+  },
+];
+
+const availability = [
+  {
+    title: 'Programările se fac telefonic, în cursul zilei',
+    text: 'Sunați sau scrieți când vă este comod. Dacă suntem la un pacient și nu putem răspunde, revenim noi cu un telefon imediat ce se poate.',
+  },
+  {
+    title: 'Vizitele se stabilesc pe ruta echipei',
+    text: 'Ora exactă depinde de traseul din ziua respectivă. Pentru localitățile din afara municipiului grupăm vizitele pe zone, așa că vă propunem cel mai apropiat interval disponibil.',
+  },
+  {
+    title: 'Tratamentele care se repetă păstrează același interval',
+    text: 'La perfuzii, injecții sau pansamente administrate zilnic stabilim de la început un interval constant, ca pacientul și familia să știe când ne așteaptă.',
+  },
+];
+---
+
+<Layout
+  title="Programare - Home Medical AC"
+  description="Cum programați o vizită medicală la domiciliu în Constanța: ce date ne transmiteți, cum decurge de la primul mesaj până la vizită și ce documente pregătiți pentru prima vizită."
+>
+  <PageHeader
+    title="Programați o vizită la domiciliu"
+    breadcrumb="Programare"
+    lead="Ne transmiteți numele pacientului, localitatea și serviciul de care aveți nevoie. Vă sunăm înapoi, lămurim situația pacientului și stabilim ziua și intervalul orar al vizitei. Mai jos este descris exact ce urmează după primul mesaj."
+  />
+
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.35fr] lg:gap-16">
+      <div class="reveal">
+        <h2 class="h-section">Ce ne transmiteți</h2>
+        <p class="lead mt-4">
+          Ca să vă putem răspunde concret de la primul mesaj, avem nevoie de trei lucruri.
+          Restul se clarifică la telefon, nu trebuie să pregătiți nimic în avans.
+        </p>
+      </div>
+
+      <div>
+        <dl class="reveal divide-y divide-line border-y border-line">
+          {
+            required.map((item) => (
+              <div class="py-6 sm:grid sm:grid-cols-[13rem_1fr] sm:gap-8">
+                <dt class="font-serif text-lg font-semibold">{item.term}</dt>
+                <dd class="mt-1.5 text-[0.95rem] leading-relaxed text-body sm:mt-0">{item.text}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="reveal mt-6 text-[0.95rem] leading-relaxed text-body">
+          Orice detaliu medical în plus scurtează discuția: dacă există deja o recomandare
+          de la medicul de familie sau o scrisoare medicală de la externare, dacă pacientul
+          este imobilizat la pat, dacă urmează un tratament început în spital. Nu este
+          obligatoriu să le aveți la îndemână ca să ne sunați.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <div class="reveal max-w-2xl">
+        <h2 class="h-section">Cum decurge, de la primul mesaj la prima vizită</h2>
+      </div>
+
+      {/* TODO(real): de confirmat cu clientul dacă materialele consumabile sunt incluse în tariful vizitei sau se procură separat de pacient, precum și dacă raportarea către medicul curant se face după fiecare vizită */}
+      {/* TODO(real): încadrarea fiecărui serviciu la decontare prin CAS sau contra cost se verifică cu CAS Constanța și cu clientul */}
+      <div class="mt-12 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-start lg:gap-16">
+        <ol class="space-y-8">
+          {
+            steps.map((step, i) => (
+              <li class="reveal flex gap-5">
+                <span
+                  class="w-8 shrink-0 font-serif text-2xl font-semibold leading-tight text-white/50"
+                  aria-hidden="true"
+                >
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="h-card">{step.title}</h3>
+                  <p class="mt-2 text-[0.95rem] leading-relaxed text-white/70">{step.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <figure class="reveal">
+          <Image
+            src={imgVisit}
+            alt="Asistentă medicală în uniformă vișinie pregătind o perfuzie la patul unei paciente vârstnice, acasă"
+            widths={[560, 840, 1200]}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            class="aspect-[4/3] w-full rounded-xl border border-white/15 object-cover"
+          />
+          <figcaption class="mt-3 text-sm text-white/55">
+            Tratamentele se administrează la domiciliu, după indicațiile medicului curant.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line bg-cream">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <div class="reveal max-w-2xl">
+        <h2 class="h-section">Ce pregătiți pentru prima vizită</h2>
+        <p class="lead mt-4">
+          Nimic complicat și nimic care să vă țină pe loc dacă lipsește. Cu aceste lucruri
+          la îndemână, asistentul înțelege situația pacientului în câteva minute și poate
+          începe vizita fără întârziere.
+        </p>
+      </div>
+
+      {/* TODO(real): lista documentelor cerute la prima vizită și actele necesare pentru decontarea prin CAS se confirmă cu clientul și cu CAS Constanța */}
+      <ul class="mt-12 grid gap-x-12 sm:grid-cols-2">
+        {
+          prepare.map((item) => (
+            <li class="reveal border-t border-line py-5">
+              <h3 class="font-serif text-lg font-semibold leading-snug">{item.term}</h3>
+              <p class="mt-1.5 text-[0.95rem] leading-relaxed text-body">{item.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      {/* TODO(real): lista de acte pentru dosarul de decontare se preia din pagina de decontare CAS, după validarea ei cu CAS Constanța */}
+      <p class="reveal mt-10 max-w-2xl text-[0.95rem] leading-relaxed text-body">
+        Dacă vă lipsește un document, nu amânați telefonul din cauza asta: ne spuneți ce
+        aveți și vedem împreună ce se poate face. Pentru dosarul de decontare prin Casa de
+        Asigurări lista de acte este alta și o găsiți pe
+        <a href={url('/decontare-cas')} class="font-semibold text-ink underline underline-offset-4">
+          pagina de decontare CAS</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+    <div class="reveal max-w-2xl">
+      <h2 class="h-section">Când ne găsiți</h2>
+    </div>
+    {/* TODO(real): programul exact de lucru (zile, interval orar, disponibilitate în weekend) se confirmă cu clientul */}
+    <div class="mt-10 grid gap-8 md:grid-cols-3 md:gap-10">
+      {
+        availability.map((item) => (
+          <div class="reveal border-t border-line pt-5">
+            <h3 class="font-serif text-lg font-semibold leading-snug">{item.title}</h3>
+            <p class="mt-2 text-[0.95rem] leading-relaxed text-body">{item.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="formular" class="border-t border-line bg-cream">
+    <div
+      class="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[1fr_1.2fr] lg:gap-16"
+    >
+      <div class="reveal">
+        <h2 class="h-section">Trimiteți cererea de programare</h2>
+        <p class="lead mt-4">
+          Completați cele trei câmpuri obligatorii, iar mesajul se deschide în WhatsApp deja scris. Îl
+          puteți citi și modifica înainte să-l trimiteți. Dacă preferați să vorbiți cu
+          cineva, sunați direct la numărul de mai jos.
+        </p>
+        <dl class="mt-9 space-y-5 text-[0.95rem]">
+          <div>
+            <dt class="text-sm text-body">Telefon / WhatsApp</dt>
+            <dd class="mt-0.5 font-serif text-2xl font-semibold">
+              <a href={site.phoneHref} class="transition-colors hover:text-red">{site.phone}</a>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm text-body">Scrieți-ne pe WhatsApp</dt>
+            <dd class="mt-0.5 font-medium">
+              <a
+                href={whatsapp('Bună ziua! Aș dori o programare pentru o vizită la domiciliu.')}
+                target="_blank"
+                rel="noopener"
+                class="underline underline-offset-4 transition-colors hover:text-red"
+              >
+                Deschideți conversația
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm text-body">Email</dt>
+            <dd class="mt-0.5 font-medium">
+              <a href={`mailto:${site.email}`} class="break-all transition-colors hover:text-red">
+                {site.email}
+              </a>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm text-body">Zona de lucru</dt>
+            <dd class="mt-0.5 font-medium">
+              <a
+                href={url('/zona-acoperita')}
+                class="underline underline-offset-4 transition-colors hover:text-red"
+              >
+                {site.area}
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <BookingForm id="programare-pagina" class="reveal" />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-16">
+    <div class="reveal max-w-3xl rounded-xl border border-line bg-surface p-6 md:p-8">
+      <h2 class="h-card">{site.name} nu este serviciu de urgență</h2>
+      <p class="mt-3 text-[0.95rem] leading-relaxed text-body">
+        Vizitele noastre sunt programate în prealabil, iar tratamentele se administrează la
+        recomandarea medicului. În caz de urgență medicală, cum ar fi durere în piept,
+        dificultate de respirație, sângerare care nu se oprește sau pierderea stării de
+        conștiență, sunați imediat la <span class="font-semibold text-ink">112</span>.
+      </p>
+    </div>
+  </section>
+</Layout>

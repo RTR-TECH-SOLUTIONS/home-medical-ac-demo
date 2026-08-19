@@ -1,0 +1,104 @@
+---
+import { services } from '../data/services';
+
+interface Props {
+  /** Id unic, ca formularul să poată apărea de mai multe ori pe același site. */
+  id?: string;
+  class?: string;
+}
+
+const { id = 'programare', class: className = '' } = Astro.props;
+
+const options = [...services.map((service) => service.title), 'Alt serviciu (detaliați în mesaj)'];
+---
+
+<form
+  class:list={['whatsapp-form rounded-xl border border-line bg-surface p-6 md:p-8', className]}
+  novalidate
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div class="sm:col-span-2">
+      <label for={`${id}-nume`} class="mb-1.5 block text-sm font-medium">Numele pacientului</label>
+      <input
+        id={`${id}-nume`}
+        name="nume"
+        type="text"
+        required
+        autocomplete="name"
+        class="w-full rounded-[10px] border border-line bg-bg px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-red"
+      />
+    </div>
+    <div>
+      <label for={`${id}-localitate`} class="mb-1.5 block text-sm font-medium">Localitatea</label>
+      <input
+        id={`${id}-localitate`}
+        name="localitate"
+        type="text"
+        required
+        placeholder="ex. Constanța"
+        class="w-full rounded-[10px] border border-line bg-bg px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-red"
+      />
+    </div>
+    <div>
+      <label for={`${id}-serviciu`} class="mb-1.5 block text-sm font-medium">Serviciul solicitat</label>
+      <select
+        id={`${id}-serviciu`}
+        name="serviciu"
+        required
+        class="w-full appearance-none rounded-[10px] border border-line bg-bg px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-red"
+      >
+        <option value="" disabled selected>Alegeți serviciul</option>
+        {options.map((option) => <option value={option}>{option}</option>)}
+      </select>
+    </div>
+    <div class="sm:col-span-2">
+      <label for={`${id}-mesaj`} class="mb-1.5 block text-sm font-medium">
+        Detalii <span class="font-normal text-body">(opțional)</span>
+      </label>
+      <textarea
+        id={`${id}-mesaj`}
+        name="mesaj"
+        rows="3"
+        placeholder="ex. pacient imobilizat, recomandare de la medicul de familie"
+        class="w-full rounded-[10px] border border-line bg-bg px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-red"></textarea>
+    </div>
+  </div>
+  <p class="form-error mt-4 hidden text-sm font-medium text-red" role="alert">
+    Completați numele pacientului, localitatea și serviciul dorit.
+  </p>
+  <button
+    type="submit"
+    class="mt-6 w-full rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+  >
+    Trimiteți mesajul pe WhatsApp
+  </button>
+  <p class="mt-3 text-center text-xs text-body">
+    Se deschide WhatsApp cu mesajul pregătit; îl puteți modifica înainte de trimitere.
+  </p>
+</form>
+
+<script>
+  // TODO(real): de confirmat cu clientul că numărul 0726 390 461 are WhatsApp activ
+  document.querySelectorAll<HTMLFormElement>('.whatsapp-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const value = (key: string) => String(data.get(key) ?? '').trim();
+      const nume = value('nume');
+      const localitate = value('localitate');
+      const serviciu = value('serviciu');
+      const mesaj = value('mesaj');
+
+      const error = form.querySelector('.form-error');
+      if (!nume || !localitate || !serviciu) {
+        error?.classList.remove('hidden');
+        return;
+      }
+      error?.classList.add('hidden');
+
+      let text = `Bună ziua! Aș dori o programare.\nPacient: ${nume}\nLocalitatea: ${localitate}\nServiciul solicitat: ${serviciu}`;
+      if (mesaj) text += `\nDetalii: ${mesaj}`;
+      window.open(`https://wa.me/40726390461?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    });
+  });
+</script>

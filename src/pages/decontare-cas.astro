@@ -1,0 +1,458 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import BookingForm from '../components/BookingForm.astro';
+import { site, whatsapp } from '../data/site';
+import imgVizita from '../assets/media/svc-monitorizare.png';
+
+/** Situațiile în care pacientul poate primi îngrijiri decontate. */
+const eligible = [
+  {
+    title: 'Pacienți externați recent',
+    text: 'După o intervenție chirurgicală, după o internare în terapie intensivă, cardiologie sau neurologie. Recomandarea poate fi eliberată chiar de medicul curant, în ziua externării.',
+  },
+  {
+    title: 'Pacienți imobilizați sau greu deplasabili',
+    text: 'Pacienți la pat, după fracturi sau proteze, cu sechele care fac imposibilă deplasarea la cabinet pentru un pansament sau o injecție.',
+  },
+  {
+    title: 'Pacienți cu afecțiuni cronice',
+    text: 'Diabet cu plăgi care nu se vindecă, insuficiență cardiacă sau respiratorie, boli neurologice degenerative. Au nevoie de tratament și de măsurători la intervale regulate, nu de o singură vizită.',
+  },
+  {
+    title: 'Pacienți oncologici și neurologici',
+    // TODO(real): prioritizarea acestor categorii se stabilește prin contractul-cadru; de verificat cu CAS Constanța
+    text: 'Conform reglementărilor în vigoare, aceste categorii au prioritate la aprobarea dosarelor, iar perioada de îngrijire decontată poate fi mai lungă.',
+  },
+];
+
+/** Documentele cerute la depunerea dosarului. */
+const documents = [
+  {
+    title: 'Recomandarea pentru îngrijiri medicale la domiciliu',
+    text: 'Formularul tipizat, completat de medic. Trebuie să conțină diagnosticul, serviciile recomandate, numărul de zile de îngrijire și frecvența vizitelor. Este actul fără de care dosarul nu se poate depune.',
+  },
+  {
+    title: 'Actul de identitate al pacientului',
+    text: 'În copie. Dacă dosarul este depus de un aparținător, este util și actul acestuia.',
+  },
+  {
+    title: 'Dovada calității de asigurat',
+    text: 'Adeverință de asigurat, cupon de pensie sau adeverință de la angajator, în funcție de situația pacientului.',
+  },
+  {
+    title: 'Biletul de externare sau scrisoarea medicală',
+    text: 'Pentru pacienții care vin după o internare. Arată ce s-a făcut în spital și ce trebuie continuat acasă.',
+  },
+  {
+    title: 'Cererea de acordare a serviciilor',
+    text: 'Se completează de pacient sau de un aparținător și se depune la casa de asigurări în evidența căreia se află pacientul.',
+  },
+];
+
+/** Pașii până la prima vizită decontată. */
+const steps = [
+  {
+    title: 'Recomandarea de la medic',
+    text: 'O eliberează medicul de familie, medicul specialist din ambulatoriu sau medicul curant din spital, la externare. Cereți-o cât timp starea pacientului este documentată în foaia de observație, nu la câteva săptămâni după.',
+    // TODO(real): termenul de valabilitate al recomandării se confirmă cu CAS Constanța
+    term: 'Recomandarea are un termen limitat în care poate fi folosită, așa că depunerea nu se amână.',
+  },
+  {
+    title: 'Depunerea și aprobarea dosarului',
+    text: 'Dosarul se depune la casa de asigurări în evidența căreia se află pacientul. Vă spunem la telefon ce conține și ce se completează, ca să nu faceți drumul de două ori.',
+    // TODO(real): durata aprobării variază; de confirmat cu CAS Constanța și cu clientul
+    term: 'Orientativ, aprobarea durează câteva zile lucrătoare de la depunerea unui dosar complet.',
+  },
+  {
+    title: 'Începerea vizitelor la domiciliu',
+    text: 'După aprobare stabilim împreună orele, iar asistentul vine conform planului scris de medic. La fiecare vizită se completează fișa pacientului, semnată de aparținător.',
+    // TODO(real): de confirmat cu clientul intervalul real în care poate începe prima vizită
+    term: 'Orientativ, prima vizită se programează în una sau două zile de la aprobare.',
+  },
+];
+
+/** Perioade orientative de decontare. */
+const durations = [
+  {
+    situation: 'Îngrijiri medicale la domiciliu, caz general',
+    period: 'Până la 90 de zile de îngrijire într-un an, acordate într-o singură etapă sau în mai multe',
+  },
+  {
+    situation: 'Pacienți oncologici',
+    period: 'Perioadă mai lungă decât cea generală, stabilită prin contractul-cadru',
+  },
+  {
+    situation: 'Îngrijiri paliative la domiciliu',
+    period: 'Perioadă separată, care se calculează distinct de îngrijirile medicale obișnuite',
+  },
+];
+
+const faq = [
+  {
+    q: 'Cine eliberează recomandarea pentru îngrijiri la domiciliu?',
+    a: 'Medicul de familie, medicul specialist din ambulatoriu sau medicul curant din spital, la externare. Condiția este ca medicul să fie în relație contractuală cu Casa de Asigurări de Sănătate. Cel mai simplu este să o cereți chiar în ziua externării.',
+  },
+  {
+    q: 'Medicul spune că nu a mai completat acest formular. Ce facem?',
+    a: 'Se întâmplă des, mai ales în afara spitalului. Sunați-ne și vă spunem punct cu punct ce trebuie să conțină recomandarea: diagnosticul, serviciile solicitate, numărul de zile și frecvența vizitelor. Cu aceste detalii, completarea durează câteva minute.',
+  },
+  {
+    q: 'Cât durează până se aprobă dosarul?',
+    a: 'Dacă dosarul este complet, de obicei durează câteva zile lucrătoare de la depunere. Cel mai des se pierde timp pentru că lipsește un act sau pentru că recomandarea nu are trecut numărul de zile de îngrijire.',
+  },
+  {
+    q: 'Pacientul are nevoie de mai multe servicii. Se pot face în aceeași vizită?',
+    a: 'Da, dacă apar toate în recomandarea medicului. Într-o singură vizită se pot face, de exemplu, pansamentul, administrarea tratamentului injectabil și măsurarea parametrilor vitali. Un serviciu care nu este trecut în recomandare nu se poate deconta, dar se poate face contra cost.',
+  },
+  {
+    q: 'Trebuie să cumpărăm noi materialele?',
+    a: 'Asistentul vine cu materialele sanitare necesare manoperei: mănuși, seringi, comprese sterile, dezinfectant. Medicamentele prescrise pe rețetă și pansamentele speciale indicate de medic se procură de familie din farmacie, la fel ca pentru orice tratament urmat acasă.',
+  },
+  {
+    q: 'Ce se întâmplă după ce se termină perioada decontată?',
+    a: 'Dacă pacientul are nevoie în continuare, medicul poate elibera o nouă recomandare, în limita zilelor rămase pe anul respectiv. Când perioada este epuizată, vizitele pot continua contra cost, cu aceeași echipă și același plan de îngrijire, ca tratamentul să nu se întrerupă.',
+  },
+];
+---
+
+<Layout
+  title="Servicii decontate de CAS - Home Medical AC"
+  description="Când sunt gratuite îngrijirile medicale la domiciliu prin Casa de Asigurări de Sănătate: cine este eligibil, ce acte sunt necesare, cum se depune dosarul și ce se întâmplă dacă nu vă încadrați. Home Medical AC, Constanța."
+>
+  <PageHeader
+    title="Gratuit prin CAS sau contra cost"
+    breadcrumb="Decontare CAS"
+    lead="Prima întrebare pe care ne-o pun familiile este cât costă. Răspunsul depinde de recomandarea medicului: pentru pacienții asigurați și eligibili, vizitele la domiciliu sunt plătite de Casa de Asigurări de Sănătate, nu de pacient. Mai jos sunt condițiile, actele și pașii, explicați pe rând."
+  />
+
+  {/* Ce înseamnă decontarea */}
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="grid items-start gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+      <div class="reveal">
+        <h2 class="h-section max-w-xl">Ce înseamnă, de fapt, decontarea</h2>
+        {/* TODO(real): mecanismul decontării (pachet de bază, plata către furnizor, plafon lunar) se preia din contractul-cadru în vigoare; de verificat cu CAS Constanța înainte de publicare */}
+        <p class="lead mt-5">
+          Îngrijirile medicale la domiciliu fac parte din pachetul de servicii de bază al
+          asigurărilor de sănătate. Pentru un pacient asigurat care are recomandare de la
+          medic, Casa de Asigurări de Sănătate plătește direct furnizorului vizitele
+          efectuate acasă.
+        </p>
+        <p class="lead mt-4">
+          Pacientul nu avansează bani și nu primește o factură pe care să o recupereze
+          ulterior. Nu este însă un drept automat: decontarea se acordă pe baza unei
+          recomandări medicale scrise, pentru un număr limitat de zile de îngrijire și în
+          limita fondului alocat lunar de casa județeană.
+        </p>
+        {/* TODO(real): de confirmat cu clientul dacă Home Medical AC are contract în derulare cu CAS Constanța, perioada contractului și serviciile contractate */}
+        <p class="mt-6 border-l-2 border-red pl-5 text-[0.95rem] leading-relaxed text-body">
+          Nu trebuie să cunoașteți dinainte toate regulile. Ne spuneți diagnosticul și ce a
+          scris medicul, iar noi vă spunem la telefon dacă pacientul se încadrează la
+          decontare sau dacă este mai rapid contra cost.
+        </p>
+      </div>
+      <Image
+        src={imgVizita}
+        alt="Asistentă medicală măsurând tensiunea arterială unei paciente vârstnice, la ea acasă"
+        widths={[520, 800, 1100]}
+        sizes="(min-width: 1024px) 42vw, 100vw"
+        class="reveal aspect-[4/3] w-full rounded-xl border border-line object-cover"
+      />
+    </div>
+  </section>
+
+  {/* Cine poate beneficia */}
+  <section class="border-y border-line bg-cream">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <div class="reveal max-w-2xl">
+        <h2 class="h-section">Cine poate beneficia</h2>
+        {/* TODO(real): cele două condiții de bază (calitatea de asigurat, recomandare de la un medic aflat în contract cu CAS) se confirmă cu CAS Constanța */}
+        <p class="lead mt-4">
+          Două condiții stau la baza dosarului: pacientul să fie asigurat în sistemul public
+          de sănătate și să existe o recomandare scrisă de la un medic aflat în relație
+          contractuală cu casa de asigurări. Peste aceste două condiții, situațiile
+          întâlnite cel mai des sunt acestea.
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-x-12 gap-y-9 md:grid-cols-2">
+        {
+          eligible.map((item) => (
+            <article class="reveal border-t border-line pt-6">
+              <h3 class="h-card">{item.title}</h3>
+              <p class="mt-2.5 text-[0.95rem] leading-relaxed text-body">{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      {/* TODO(real): criteriile de eligibilitate și categoriile prioritare se modifică prin contractul-cadru; de verificat cu CAS Constanța înainte de publicare */}
+      <p class="reveal mt-10 max-w-3xl text-sm leading-relaxed text-body">
+        Decizia finală privind eligibilitatea aparține casei de asigurări, pe baza
+        recomandării medicale. Dacă nu sunteți sigur de situația pacientului, sunați-ne
+        înainte să faceți drumuri.
+      </p>
+    </div>
+  </section>
+
+  {/* Actele necesare */}
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
+      <div>
+        <div class="reveal max-w-xl">
+          <h2 class="h-section">Actele necesare</h2>
+          <p class="lead mt-4">
+            Dosarul este subțire, dar trebuie să fie complet. Un singur document lipsă
+            înseamnă încă un drum și câteva zile pierdute.
+          </p>
+        </div>
+
+        {/* TODO(real): lista exactă de acte se confirmă cu CAS Constanța și cu clientul */}
+        <ol class="mt-10 space-y-7">
+          {
+            documents.map((doc, i) => (
+              <li class="reveal flex gap-5">
+                <span
+                  class="font-serif text-2xl font-semibold leading-none text-red"
+                  aria-hidden="true"
+                >
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 class="font-serif text-[1.05rem] font-semibold leading-snug">{doc.title}</h3>
+                  <p class="mt-1.5 text-[0.95rem] leading-relaxed text-body">{doc.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="reveal mt-9 max-w-2xl text-sm leading-relaxed text-body">
+          Lista poate să difere de la un caz la altul și se poate modifica de la un an la
+          altul. Înainte de a merge la ghișeu, verificați lista valabilă la momentul
+          respectiv cu Casa de Asigurări de Sănătate Constanța sau întrebați-ne.
+        </p>
+      </div>
+
+      <aside class="reveal h-fit rounded-xl border border-line bg-surface p-7 md:p-8">
+        <h3 class="h-card">Nu sunteți sigur că aveți toate actele</h3>
+        <p class="mt-3 text-[0.95rem] leading-relaxed text-body">
+          Fotografiați recomandarea primită de la medic și trimiteți-ne-o pe WhatsApp. Ne
+          uităm peste ea și vă spunem dacă mai lipsește ceva, înainte să vă deplasați la
+          casa de asigurări.
+        </p>
+        <a
+          href={whatsapp('Bună ziua! Vă trimit recomandarea medicală, ca să îmi spuneți dacă dosarul este complet.')}
+          target="_blank"
+          rel="noopener"
+          class="mt-6 inline-block rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+        >
+          Trimiteți recomandarea pe WhatsApp
+        </a>
+        <p class="mt-5 text-sm text-body">
+          Preferați telefonul?
+          <a href={site.phoneHref} class="font-semibold text-ink underline underline-offset-4">
+            {site.phone}
+          </a>
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  {/* Cum se obține, pas cu pas */}
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+      <div class="reveal max-w-2xl">
+        <h2 class="h-section">Cum se obține, pas cu pas</h2>
+        <p class="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
+          De la recomandarea medicului până la prima vizită acasă sunt trei etape. Cel mai
+          des se pierde timp la prima, pentru că recomandarea este incompletă.
+        </p>
+      </div>
+
+      <ol class="mt-14 grid gap-10 md:grid-cols-3 md:gap-10">
+        {
+          steps.map((step, i) => (
+            <li class="reveal border-t border-white/15 pt-6">
+              <p class="font-serif text-4xl font-semibold text-white/40" aria-hidden="true">
+                {i + 1}
+              </p>
+              <h3 class="mt-4 font-serif text-xl font-semibold">{step.title}</h3>
+              <p class="mt-2.5 text-[0.95rem] leading-relaxed text-white/70">{step.text}</p>
+              <p class="mt-4 text-sm leading-relaxed text-white/60">{step.term}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      {/* TODO(real): toate termenele de mai sus sunt orientative; de confirmat cu CAS Constanța și cu clientul înainte de publicare. De confirmat și dacă echipa urmărește efectiv stadiul dosarului pentru pacient. */}
+      <p class="reveal mt-12 max-w-3xl text-sm leading-relaxed text-white/60">
+        Termenele de mai sus sunt orientative și depind de casa de asigurări și de perioada
+        din an. Vă ținem la curent cu stadiul dosarului pe tot parcursul.
+      </p>
+    </div>
+  </section>
+
+  {/* Cât timp se decontează */}
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="reveal max-w-2xl">
+      <h2 class="h-section">Cât timp se decontează</h2>
+      <p class="lead mt-4">
+        Îngrijirile la domiciliu nu se decontează nelimitat. Există un număr maxim de zile
+        de îngrijire pe an, iar numărul efectiv de vizite este cel scris de medic în
+        recomandare și confirmat de casa de asigurări.
+      </p>
+    </div>
+
+    {/* TODO(real): perioadele și plafoanele se schimbă prin contractul-cadru; de verificat cu CAS Constanța înainte de publicare */}
+    <div
+      class="reveal mt-10 overflow-x-auto rounded-xl border border-line bg-surface"
+      role="region"
+      aria-label="Perioade orientative de decontare"
+      tabindex="0"
+    >
+      <table class="w-full min-w-[34rem] border-collapse text-left">
+        <caption class="sr-only">
+          Perioade orientative de decontare a îngrijirilor medicale la domiciliu
+        </caption>
+        <thead>
+          <tr class="border-b border-line">
+            <th scope="col" class="px-6 py-4 text-sm font-medium text-body md:px-7">
+              Situația pacientului
+            </th>
+            <th scope="col" class="px-6 py-4 text-sm font-medium text-body md:px-7">
+              Perioadă orientativă
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            durations.map((row) => (
+              <tr class="border-b border-line last:border-0">
+                <th
+                  scope="row"
+                  class="px-6 py-5 align-top text-[0.95rem] font-semibold md:px-7"
+                >
+                  {row.situation}
+                </th>
+                <td class="px-6 py-5 align-top text-[0.95rem] leading-relaxed text-body md:px-7">
+                  {row.period}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="reveal mt-6 max-w-3xl rounded-xl border border-red/20 bg-red-soft p-6 md:p-7">
+      <h3 class="h-card">De verificat înainte de a face pași</h3>
+      <p class="mt-2.5 text-[0.95rem] leading-relaxed text-body">
+        Perioadele și plafoanele de mai sus se stabilesc prin contractul-cadru și se pot
+        modifica de la un an la altul. Nu luați o decizie doar pe baza acestei pagini:
+        sunați-ne sau întrebați la Casa de Asigurări de Sănătate Constanța care sunt
+        limitele valabile la data solicitării dumneavoastră.
+      </p>
+    </div>
+  </section>
+
+  {/* Dacă nu vă încadrați */}
+  <section class="border-y border-line bg-cream">
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div class="reveal">
+        <h2 class="h-section">Dacă nu vă încadrați</h2>
+        <p class="lead mt-4">
+          Nu orice pacient are recomandare și nu în orice situație se poate aștepta
+          aprobarea dosarului. Facem aceleași servicii, cu aceiași asistenți, și contra
+          cost.
+        </p>
+        <ul class="mt-9 space-y-5">
+          <li class="border-t border-line pt-5">
+            <p class="font-semibold">Fără dosar și fără drumuri</p>
+            <p class="mt-1.5 text-[0.95rem] leading-relaxed text-body">
+              Nu este nevoie de recomandare depusă la casa de asigurări. Ne sunați, stabilim
+              vizita și venim.
+            </p>
+          </li>
+          <li class="border-t border-line pt-5">
+            <p class="font-semibold">Fără așteptare</p>
+            <p class="mt-1.5 text-[0.95rem] leading-relaxed text-body">
+              Programarea se face direct, în funcție de ruta echipei din ziua respectivă.
+              Pentru pansamente și tratamente începute în spital, continuitatea contează mai
+              mult decât economia.
+            </p>
+          </li>
+          <li class="border-t border-line pt-5">
+            {/* TODO(real): tarifele nu sunt publicate; de stabilit cu clientul dacă dorește o grilă publică de prețuri */}
+            <p class="font-semibold">Tariful, comunicat înainte de programare</p>
+            <p class="mt-1.5 text-[0.95rem] leading-relaxed text-body">
+              Vă spunem la telefon cât costă vizita, în funcție de serviciu și de
+              localitate, înainte să confirmați programarea. Nu există costuri care apar la
+              ușă.
+            </p>
+          </li>
+        </ul>
+        {/* TODO(real): de confirmat cu clientul dacă un pacient început contra cost poate trece pe decontare CAS după aprobarea dosarului */}
+        <p class="mt-8 max-w-xl text-sm leading-relaxed text-body">
+          Dacă între timp obțineți recomandarea și dosarul este aprobat, vizitele pot
+          continua în regim decontat, fără schimbarea echipei.
+        </p>
+      </div>
+
+      <div class="reveal">
+        <h3 class="h-card">Întrebați-ne despre situația dumneavoastră</h3>
+        <p class="mt-2.5 text-[0.95rem] leading-relaxed text-body">
+          Completați datele pacientului, iar mesajul se deschide în WhatsApp, gata de trimis.
+        </p>
+        <BookingForm id="cas" class="mt-6" />
+      </div>
+    </div>
+  </section>
+
+  {/* Întrebări frecvente */}
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="reveal max-w-2xl">
+      <h2 class="h-section">Întrebări frecvente</h2>
+      <p class="lead mt-4">
+        Cele mai des puse întrebări la telefon, cu răspunsurile pe care le dăm și acolo.
+      </p>
+    </div>
+
+    {/* TODO(real): răspunsurile privind termenele, materialele și limitele de decontare se validează cu clientul și cu CAS Constanța */}
+    <div class="reveal mt-12 max-w-3xl border-t border-line">
+      {
+        faq.map((item) => (
+          <details class="group border-b border-line">
+            <summary
+              class="flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-serif text-[1.05rem] font-semibold leading-snug transition-colors hover:text-red [&::-webkit-details-marker]:hidden"
+            >
+              <span>{item.q}</span>
+              <span class="relative mt-2 h-3 w-3 shrink-0" aria-hidden="true">
+                <span class="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-ink/45"></span>
+                <span
+                  class="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-ink/45 transition-opacity duration-200 group-open:opacity-0"
+                ></span>
+              </span>
+            </summary>
+            <p class="pb-6 pr-9 text-[0.95rem] leading-relaxed text-body">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="reveal mt-10 text-[0.95rem] text-body">
+      Nu ați găsit răspunsul?
+      <a href={site.phoneHref} class="font-semibold text-ink underline underline-offset-4">
+        Sunați la {site.phone}
+      </a>
+      și vă lămurim în două minute.
+    </p>
+  </section>
+
+  <CtaBand
+    title="Vă spunem dacă vă încadrați"
+    text="Ne dați numele pacientului, localitatea și diagnosticul scris de medic, iar noi vă spunem la telefon dacă îngrijirile pot fi decontate de CAS sau dacă este mai rapid să începem contra cost."
+  />
+</Layout>

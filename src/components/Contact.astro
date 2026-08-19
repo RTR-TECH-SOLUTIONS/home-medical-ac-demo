@@ -1,0 +1,41 @@
+---
+import BookingForm from './BookingForm.astro';
+import { site, url } from '../data/site';
+---
+
+<section id="contact" class="border-t border-line bg-cream">
+  <div class="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+    <div class="reveal">
+      <h2 class="h-section">Programați o vizită</h2>
+      <p class="lead mt-4">
+        Completați datele, iar mesajul se deschide direct în WhatsApp, gata de trimis.
+        Preferați telefonul? Ne găsiți zilnic la numărul de mai jos.
+      </p>
+      <dl class="mt-9 space-y-5 text-[0.95rem]">
+        <div>
+          <dt class="text-sm text-body">Telefon / WhatsApp</dt>
+          <dd class="mt-0.5 font-serif text-2xl font-semibold">
+            <a href={site.phoneHref} class="transition-colors hover:text-red">{site.phone}</a>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm text-body">Email</dt>
+          <dd class="mt-0.5 font-medium">
+            <a href={`mailto:${site.email}`} class="break-all transition-colors hover:text-red">
+              {site.email}
+            </a>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm text-body">Zona de lucru</dt>
+          <dd class="mt-0.5 font-medium">{site.area}</dd>
+        </div>
+      </dl>
+      <a href={url('/contact')} class="mt-8 inline-block text-[0.95rem] font-semibold underline underline-offset-4">
+        Toate datele de contact
+      </a>
+    </div>
+
+    <BookingForm id="acasa" class="reveal" />
+  </div>
+</section>

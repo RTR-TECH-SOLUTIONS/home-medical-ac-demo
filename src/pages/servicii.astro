@@ -1,0 +1,209 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { services } from '../data/services';
+import { site, whatsapp, url } from '../data/site';
+
+const description =
+  'Servicii medicale la domiciliu în Constanța și în județ: consultații, recoltări de analize, tratamente injectabile și perfuzabile, pansamente și escare, îngrijiri postoperatorii și paliative, monitorizarea parametrilor vitali. Gratuit prin CAS sau contra cost.';
+
+/** Ce se întâmplă când solicitarea nu se regăsește în lista de mai sus. */
+const intakeSteps = [
+  {
+    title: 'Ne trimiteți recomandarea',
+    text: 'O fotografie clară a scrisorii medicale sau a recomandării, trimisă pe WhatsApp, este de obicei suficientă ca să înțelegem cazul.',
+  },
+  {
+    title: 'Verificăm ce se poate face acasă',
+    text: 'Unele manopere cer aparatură sau condiții de spital. Când este cazul, vă spunem deschis și vă îndrumăm mai departe.',
+  },
+  {
+    title: 'Stabilim planul de vizite',
+    text: 'Dacă putem prelua cazul, fixăm zilele și orele împreună cu dumneavoastră, după indicațiile medicului curant.',
+  },
+];
+---
+
+<Layout title="Servicii medicale la domiciliu - Home Medical AC" description={description}>
+  {/* TODO(real): de confirmat cu clientul aria efectivă de deplasare (municipiu, județ) și dacă recomandarea medicului este obligatorie și pentru vizitele contra cost */}
+  <PageHeader
+    title="Servicii medicale la domiciliu"
+    breadcrumb="Servicii"
+    lead="Ne deplasăm la domiciliul pacientului, în municipiul Constanța și în județ, pe baza recomandării medicului de familie sau a medicului specialist. Mai jos găsiți, pentru fiecare serviciu, ce cuprinde efectiv vizita și în ce situații se recomandă."
+  />
+
+  <section aria-label="Navigare rapidă între servicii" class="border-b border-line bg-cream">
+    <div class="mx-auto max-w-6xl px-5 py-6 md:px-8 md:py-7">
+      <div class="flex flex-col gap-3.5 md:flex-row md:items-center md:gap-6">
+        <p class="shrink-0 text-sm text-body">Mergeți direct la:</p>
+        <ul class="flex flex-wrap gap-2.5">
+          {
+            services.map((service) => (
+              <li>
+                <a
+                  href={`#${service.slug}`}
+                  class="block rounded-[10px] border border-line bg-surface px-4 py-2 text-sm font-medium transition-colors hover:border-ink/30"
+                >
+                  {service.navTitle}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {
+    services.map((service, i) => (
+      <section id={service.slug} class:list={[i % 2 === 0 ? 'bg-bg' : 'bg-cream']}>
+        <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+          <div class="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div class:list={['reveal order-1', i % 2 === 1 && 'lg:order-2']}>
+              <Image
+                src={service.image}
+                alt={service.alt}
+                widths={[560, 840, 1120]}
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                class="aspect-[4/3] w-full rounded-xl border border-line object-cover"
+              />
+            </div>
+
+            <div class:list={['reveal order-2', i % 2 === 1 && 'lg:order-1']}>
+              <h2 class="h-section">{service.title}</h2>
+              <p class="lead mt-4">{service.intro}</p>
+
+              <h3 class="mt-9 font-serif text-lg font-semibold">Ce cuprinde vizita</h3>
+              <ul class="mt-4 border-t border-ink/10">
+                {service.includes.map((item) => (
+                  <li class="border-b border-ink/10 py-3 text-[0.95rem] leading-relaxed text-body">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-9 border-l-2 border-red pl-5">
+                <h3 class="font-serif text-lg font-semibold">{service.whenTitle}</h3>
+                <p class="mt-2 text-[0.95rem] leading-relaxed text-body">{service.when}</p>
+              </div>
+
+              <p class="mt-7 text-sm leading-relaxed text-body">
+                <span class="font-semibold text-ink">Bine de știut.</span> {service.note}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
+      <div class="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+        <div class="reveal">
+          <h2 class="h-section">Alte servicii, la recomandarea medicului</h2>
+          <p class="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
+            Lista de mai sus acoperă cele mai frecvente solicitări, însă nu este limitativă. O
+            bună parte dintre vizitele noastre combină mai multe manopere: o recoltare și un
+            pansament în aceeași deplasare sau o schemă de tratament ținută câteva săptămâni,
+            cu monitorizarea parametrilor între administrări.
+          </p>
+          <p class="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
+            Dacă medicul a recomandat ceva ce nu găsiți aici, întrebați-ne. Adaptăm îngrijirea
+            la ce scrie în recomandare și la ce are nevoie pacientul acasă, iar dacă este
+            cazul discutăm direct cu medicul curant.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3.5">
+            <a
+              href={whatsapp(
+                'Bună ziua! Medicul a recomandat un serviciu pe care nu l-am găsit pe site. Vă pot trimite recomandarea?'
+              )}
+              target="_blank"
+              rel="noopener"
+              class="rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+            >
+              Trimiteți-ne recomandarea pe WhatsApp
+            </a>
+            <a
+              href={site.phoneHref}
+              class="rounded-[10px] border border-white/30 px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-white/10"
+            >
+              Sunați: {site.phone}
+            </a>
+          </div>
+        </div>
+
+        {/* TODO(real): de confirmat cu clientul fluxul de preluare a unei solicitări noi (evaluarea pe baza recomandării, discuția cu medicul curant, în cât timp se dă răspunsul) */}
+        <div class="reveal">
+          <h3 class="font-serif text-xl font-semibold">Cum aflați dacă putem prelua cazul</h3>
+          <ol class="mt-6 border-t border-white/15">
+            {intakeSteps.map((step, i) => (
+              <li class="flex gap-4 border-b border-white/15 py-4">
+                <span class="mt-0.5 shrink-0 font-serif text-sm font-semibold text-white/55" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <div>
+                  <p class="font-semibold">{step.title}</p>
+                  <p class="mt-1.5 text-[0.95rem] leading-relaxed text-white/70">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-bg">
+    <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+      <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        {/* TODO(real): condițiile de decontare și lista serviciilor decontate se stabilesc prin contractul-cadru; de verificat cu CAS Constanța și cu clientul care dintre serviciile de mai sus intră efectiv la decontare */}
+        <div class="reveal">
+          <h2 class="h-section">Gratuit prin CAS sau contra cost</h2>
+          <p class="lead mt-4">
+            O parte dintre serviciile de mai sus se pot deconta prin Casa de Asigurări de
+            Sănătate, în funcție de recomandarea medicului și de eligibilitatea pacientului.
+            Dacă nu vă încadrați sau nu doriți să așteptați aprobarea dosarului, aceleași
+            servicii se pot face contra cost. Vă spunem de la primul telefon în ce situație vă
+            aflați.
+          </p>
+          <a
+            href={url('/decontare-cas')}
+            class="mt-7 inline-block rounded-[10px] border border-ink/20 px-6 py-3.5 text-[0.95rem] font-semibold transition-colors hover:border-ink/40"
+          >
+            Condiții, acte necesare și pașii de urmat
+          </a>
+        </div>
+
+        {/* TODO(real): de confirmat dacă Home Medical AC are contract în derulare cu CAS Constanța, numărul de zile aprobate per episod de îngrijire, dacă materialele consumabile sunt incluse și dacă tarifele contra cost se comunică doar telefonic sau se pot afișa pe site */}
+        <dl class="reveal border-t border-ink/10">
+          <div class="border-b border-ink/10 py-5">
+            <dt class="font-serif text-lg font-semibold">
+              Cu recomandare de la medic și dosar aprobat
+            </dt>
+            <dd class="mt-2 text-[0.95rem] leading-relaxed text-body">
+              Vizitele se decontează prin Casa de Asigurări de Sănătate Constanța, în limita
+              numărului de zile aprobate. Pentru serviciile aprobate pacientul nu plătește
+              vizita, iar la întocmirea dosarului vă ajutăm noi.
+            </dd>
+          </div>
+          <div class="border-b border-ink/10 py-5">
+            <dt class="font-serif text-lg font-semibold">Fără dosar la Casa de Asigurări</dt>
+            <dd class="mt-2 text-[0.95rem] leading-relaxed text-body">
+              Puteți programa direct, contra cost, fără așteptare. Costul vizitei vi se comunică
+              la telefon înainte de programare, în funcție de serviciu și de localitate.
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Nu știți sigur de ce serviciu aveți nevoie?"
+    text="Sunați-ne cu recomandarea medicului în față. Vă spunem ce se poate face acasă, cine vine și când putem ajunge."
+  />
+</Layout>

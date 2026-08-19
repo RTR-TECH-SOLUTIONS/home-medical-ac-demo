@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import imgTeam from '../assets/media/team.png';
+---
+
+<section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+  <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+    <div class="reveal order-2 lg:order-1">
+      <h2 class="h-section">O echipă medicală care vine la dumneavoastră</h2>
+      <p class="lead mt-4">
+        Suntem asistenți medicali generaliști cu experiență în îngrijiri la domiciliu,
+        coordonați medical și dedicați pacienților din Constanța. Lucrăm în strânsă
+        legătură cu medicul curant al fiecărui pacient și tratăm fiecare casă în care
+        intrăm cu respectul cuvenit.
+      </p>
+      <dl class="mt-9 grid grid-cols-2 gap-6 max-w-md">
+        <div class="border-l-2 border-red pl-4">
+          <dt class="text-sm text-body">Familii care ne urmăresc</dt>
+          <dd class="mt-1 font-serif text-3xl font-semibold">8.100+</dd>
+        </div>
+        <div class="border-l-2 border-red pl-4">
+          <dt class="text-sm text-body">Recomandări din recenzii</dt>
+          <dd class="mt-1 font-serif text-3xl font-semibold">100%</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="reveal order-1 lg:order-2">
+      <!-- TODO(real): înlocuit cu fotografia reală a echipei Home Medical AC -->
+      <Image
+        src={imgTeam}
+        alt="Echipa Home Medical AC în uniforme roșii"
+        widths={[640, 960, 1280]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        class="w-full rounded-xl border border-line object-cover"
+      />
+    </div>
+  </div>
+</section>

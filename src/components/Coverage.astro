@@ -1,0 +1,35 @@
+---
+import { areasFlat, url } from '../data/site';
+---
+
+<section id="zona" class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+  <div class="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
+    <div class="reveal">
+      <h2 class="h-section">Unde ne deplasăm</h2>
+      <p class="lead mt-4">
+        Acoperim municipiul Constanța și localitățile limitrofe. Pentru restul județului,
+        întrebați-ne: de regulă găsim o soluție, în funcție de programul echipei.
+      </p>
+      <a
+        href={url('/zona-acoperita')}
+        class="mt-6 inline-block rounded-[10px] border border-ink/20 px-5 py-3 text-sm font-semibold transition-colors hover:border-ink/40"
+      >
+        Vezi toate localitățile
+      </a>
+    </div>
+    <div class="reveal">
+      <ul class="flex flex-wrap gap-2.5">
+        {
+          areasFlat.map((area) => (
+            <li class="rounded-[10px] border border-line bg-surface px-4 py-2 text-sm font-medium">
+              {area}
+            </li>
+          ))
+        }
+        <li class="rounded-[10px] border border-dashed border-line px-4 py-2 text-sm text-body">
+          + restul județului, la cerere
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

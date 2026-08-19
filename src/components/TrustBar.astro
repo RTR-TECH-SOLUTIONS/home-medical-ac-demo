@@ -1,0 +1,31 @@
+---
+const items = [
+  {
+    title: 'Decontare CAS',
+    text: 'Servicii gratuite pentru pacienții eligibili, pe bază de recomandare medicală',
+  },
+  {
+    title: 'Tot județul Constanța',
+    text: 'Ne deplasăm în municipiu și în localitățile limitrofe, la domiciliul pacientului',
+  },
+  {
+    title: '8.100+ de familii',
+    text: 'Ne urmăresc și ne recomandă în comunitatea locală',
+  },
+  {
+    title: '100% recomandări',
+    text: 'Din recenziile pacienților și aparținătorilor noștri',
+  },
+];
+---
+
+<section class="border-b border-line bg-cream">
+  <div class="mx-auto grid max-w-6xl gap-x-8 gap-y-6 px-5 py-9 sm:grid-cols-2 md:px-8 lg:grid-cols-4">
+    {items.map((item) => (
+      <div class="reveal border-l-2 border-red pl-4">
+        <p class="font-serif text-lg font-semibold">{item.title}</p>
+        <p class="mt-1 text-sm leading-relaxed text-body">{item.text}</p>
+      </div>
+    ))}
+  </div>
+</section>
