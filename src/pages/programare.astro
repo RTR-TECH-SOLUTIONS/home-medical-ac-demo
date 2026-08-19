@@ -65,8 +65,8 @@ const prepare = [
 
 const availability = [
   {
-    title: 'Programările se fac telefonic, în cursul zilei',
-    text: 'Sunați sau scrieți când vă este comod. Dacă suntem la un pacient și nu putem răspunde, revenim noi cu un telefon imediat ce se poate.',
+    title: 'Zilnic, între 8:00 și 22:30, inclusiv în weekend',
+    text: 'Programările se fac telefonic, în acest interval. Dacă suntem la un pacient și nu putem răspunde, revenim noi cu un telefon imediat ce se poate.',
   },
   {
     title: 'Vizitele se stabilesc pe ruta echipei',
@@ -191,7 +191,7 @@ const availability = [
       <p class="reveal mt-10 max-w-2xl text-[0.95rem] leading-relaxed text-body">
         Dacă vă lipsește un document, nu amânați telefonul din cauza asta: ne spuneți ce
         aveți și vedem împreună ce se poate face. Pentru dosarul de decontare prin Casa de
-        Asigurări lista de acte este alta și o găsiți pe
+        Asigurări lista de acte este alta și o găsiți pe{' '}
         <a href={url('/decontare-cas')} class="font-semibold text-ink underline underline-offset-4">
           pagina de decontare CAS</a>.
       </p>
@@ -202,7 +202,7 @@ const availability = [
     <div class="reveal max-w-2xl">
       <h2 class="h-section">Când ne găsiți</h2>
     </div>
-    {/* TODO(real): programul exact de lucru (zile, interval orar, disponibilitate în weekend) se confirmă cu clientul */}
+    {/* TODO(real): intervalul 8:00-22:30 este cel din pliantul clientului; de confirmat regimul din sărbătorile legale */}
     <div class="mt-10 grid gap-8 md:grid-cols-3 md:gap-10">
       {
         availability.map((item) => (
