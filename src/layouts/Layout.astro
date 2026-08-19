@@ -11,14 +11,16 @@ interface Props {
 
 const {
   title,
-  description = 'Servicii medicale la domiciliu în Constanța și zonele limitrofe: consultații, recoltări de analize, tratamente injectabile și perfuzabile, îngrijiri postoperatorii și paliative. Gratuit prin CAS sau contra cost.',
+  description = 'Servicii medicale la domiciliu în Constanța și zonele limitrofe: consultații, recoltări de analize, tratamente injectabile și perfuzabile, îngrijiri postoperatorii și paliative. Servicii decontate de CAS sau contra cost.',
 } = Astro.props;
 ---
 
 <html lang="ro">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    {/* Sigla reală a clientei (preluată de pe Facebook), folosită și ca favicon. */}
+    <link rel="icon" type="image/png" href={url('/favicon.png')} />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />

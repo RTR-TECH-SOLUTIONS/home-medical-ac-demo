@@ -7,7 +7,7 @@ import { services } from '../data/services';
 import { site, whatsapp, url } from '../data/site';
 
 const description =
-  'Servicii medicale la domiciliu în Constanța și în județ: consultații, recoltări de analize, tratamente injectabile și perfuzabile, pansamente și escare, îngrijiri postoperatorii și paliative, monitorizarea parametrilor vitali. Gratuit prin CAS sau contra cost.';
+  'Servicii medicale la domiciliu în Constanța și în județ: consultații, recoltări de analize, tratamente injectabile și perfuzabile, pansamente și escare, îngrijiri postoperatorii și paliative, monitorizarea parametrilor vitali. Servicii decontate de CAS sau contra cost.';
 
 /** Ce se întâmplă când solicitarea nu se regăsește în lista de mai sus. */
 const intakeSteps = [
@@ -162,7 +162,7 @@ const intakeSteps = [
       <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
         {/* TODO(real): condițiile de decontare și lista serviciilor decontate se stabilesc prin contractul-cadru; de verificat cu CAS Constanța și cu clientul care dintre serviciile de mai sus intră efectiv la decontare */}
         <div class="reveal">
-          <h2 class="h-section">Gratuit prin CAS sau contra cost</h2>
+          <h2 class="h-section">Servicii decontate de CAS sau contra cost</h2>
           <p class="lead mt-4">
             O parte dintre serviciile de mai sus se pot deconta prin Casa de Asigurări de
             Sănătate, în funcție de recomandarea medicului și de eligibilitatea pacientului.

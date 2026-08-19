@@ -6,6 +6,10 @@ export const site = {
   email: 'constantinadinamihaela@gmail.com',
   facebook: 'https://www.facebook.com/p/HOME-Medical-AC-61563381780291/',
   area: 'Constanța și zonele limitrofe',
+  /** Program preluat din pliantul oficial trimis de client (19.08.2026). */
+  schedule: 'Luni - duminică, 8:00 - 22:30',
+  /** Dispeceratul de îngrijiri la domiciliu, de pe pliantul clientului. Nu se primesc pacienți aici. */
+  dispatchAddress: 'Bd. I. C. Brătianu nr. 82, bloc SR 10, sc. B, ap. 27, parter, Constanța',
 };
 
 /**

@@ -44,6 +44,17 @@ import { site, whatsapp, url } from '../data/site';
 
         <dl class="mt-11 divide-y divide-line border-y border-line text-[0.95rem]">
           <div class="grid gap-1 py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
+            <dt class="text-sm text-body">Program</dt>
+            <dd>
+              <p class="font-medium">{site.schedule}</p>
+              <p class="mt-1.5 leading-relaxed text-body">
+                Inclusiv sâmbăta și duminica, la același interval. Vizitele se fac pe bază de
+                programare telefonică.
+              </p>
+            </dd>
+          </div>
+
+          <div class="grid gap-1 py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
             <dt class="text-sm text-body">Email</dt>
             <dd>
               <a
@@ -55,7 +66,7 @@ import { site, whatsapp, url } from '../data/site';
               {/* TODO(real): lista actelor cerute pentru dosarul de decontare se confirmă cu clientul și cu CAS Constanța */}
               <p class="mt-1.5 leading-relaxed text-body">
                 Potrivit pentru documente: recomandarea medicului, scrisoarea de externare sau
-                actele pentru
+                actele pentru{' '}
                 <a
                   href={url('/decontare-cas')}
                   class="underline underline-offset-4 transition-colors hover:text-red"
@@ -86,21 +97,25 @@ import { site, whatsapp, url } from '../data/site';
             <dd>
               <p class="font-medium">{site.area}</p>
               <p class="mt-1.5 leading-relaxed text-body">
-                Ne deplasăm la domiciliul pacientului.
+                Ne deplasăm la domiciliul pacientului.{' '}
                 <a href={url('/zona-acoperita')} class="underline underline-offset-4 transition-colors hover:text-red">
                   Vedeți lista localităților
-                </a>
+                </a>{' '}
                 sau întrebați-ne la telefon dacă localitatea dumneavoastră nu apare acolo.
               </p>
             </dd>
           </div>
 
           <div class="grid gap-1 py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
-            <dt class="text-sm text-body">Cabinet</dt>
-            {/* TODO(real): de confirmat cu clientul dacă există un punct de lucru unde pot veni aparținătorii și dacă actele pentru dosar se preiau la prima vizită */}
-            <dd class="leading-relaxed text-body">
-              Nu primim pacienți la sediu. Consultațiile, recoltările și tratamentele se fac
-              acasă la pacient, iar actele pentru dosar le preluăm la prima vizită.
+            <dt class="text-sm text-body">Dispecerat</dt>
+            {/* TODO(real): de confirmat cu clientul dacă aparținătorii pot veni la dispecerat cu actele sau doar la prima vizită */}
+            <dd>
+              <p class="font-medium">{site.dispatchAddress}</p>
+              <p class="mt-1.5 leading-relaxed text-body">
+                Aici se coordonează deplasările, nu primim pacienți. Consultațiile,
+                recoltările și tratamentele se fac acasă la pacient, iar actele pentru dosar
+                le preluăm la prima vizită.
+              </p>
             </dd>
           </div>
         </dl>
@@ -124,10 +139,11 @@ import { site, whatsapp, url } from '../data/site';
       <div class="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
         <div class="reveal">
           <h2 class="h-section">Când răspundem</h2>
-          {/* TODO(real): programul exact (ore, weekend, sărbători legale) și termenele de răspuns enumerate mai jos se confirmă cu clientul */}
+          {/* TODO(real): programul de mai jos este cel din pliantul clientului; de confirmat regimul din sărbătorile legale și termenele de răspuns enumerate */}
           <p class="lead mt-4">
-            Suntem o echipă mică, plecată în teren aproape toată ziua. Preferăm să vă spunem
-            cinstit cum stau lucrurile, ca să știți la ce să vă așteptați.
+            Lucrăm zilnic, între 8:00 și 22:30, inclusiv în weekend. Suntem o echipă mică,
+            plecată în teren aproape toată ziua, așa că preferăm să vă spunem cinstit cum
+            stau lucrurile, ca să știți la ce să vă așteptați.
           </p>
           <ul class="mt-8 space-y-5 text-[0.95rem] leading-relaxed">
             <li class="border-l-2 border-ink/20 pl-5">
@@ -158,7 +174,7 @@ import { site, whatsapp, url } from '../data/site';
             accident vascular.
           </p>
           <p class="mt-5 text-[0.95rem] leading-relaxed">
-            În aceste cazuri sunați imediat la
+            În aceste cazuri sunați imediat la{' '}
             <a
               href="tel:112"
               class="font-serif text-2xl font-semibold text-red underline underline-offset-4 transition-colors hover:text-red-dark"
