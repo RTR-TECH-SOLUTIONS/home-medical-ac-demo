@@ -1,0 +1,36 @@
+---
+// TODO(real): înlocuit cu recenziile reale de pe pagina de Facebook (100% recomandă, 9 recenzii)
+const testimonials = [
+  {
+    quote:
+      'Au venit în aceeași zi în care am sunat, iar de atunci vin săptămânal la mama pentru pansamente. Ne explică de fiecare dată ce au făcut și ce urmează.',
+    author: 'M. D., Constanța',
+  },
+  {
+    quote:
+      'După operația tatălui meu nu știam cum o să ne descurcăm acasă. Ne-au ajutat și cu dosarul pentru decontare, totul a fost gratuit prin CAS.',
+    author: 'A. P., Năvodari',
+  },
+  {
+    quote:
+      'Recoltarea analizelor acasă a fost o ușurare enormă. Doamna asistentă a fost blândă și foarte pricepută, rezultatele au venit repede.',
+    author: 'E. S., Ovidiu',
+  },
+];
+---
+
+<section class="border-t border-line">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <h2 class="reveal h-section max-w-2xl">Ce spun familiile pacienților</h2>
+    <div class="mt-12 grid gap-8 md:grid-cols-3">
+      {testimonials.map((item) => (
+        <figure class="reveal flex flex-col justify-between border-l-2 border-red pl-5">
+          <blockquote class="font-serif text-[1.05rem] leading-relaxed italic">
+            „{item.quote}”
+          </blockquote>
+          <figcaption class="mt-4 text-sm font-medium text-body">{item.author}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

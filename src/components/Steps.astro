@@ -1,0 +1,55 @@
+---
+import { url } from '../data/site';
+const steps = [
+  {
+    title: 'Ne scrieți sau ne sunați',
+    text: 'Trei lucruri ne trebuie: numele pacientului, localitatea și serviciul dorit. Pe WhatsApp sau la telefon.',
+  },
+  {
+    title: 'Stabilim vizita',
+    text: 'Vă sunăm înapoi, clarificăm nevoile pacientului și programăm vizita la o oră potrivită pentru dumneavoastră.',
+  },
+  {
+    title: 'Venim la domiciliu',
+    text: 'Asistentul medical ajunge la ora stabilită, cu toate materialele necesare. După vizită, raportăm medicului curant.',
+  },
+];
+---
+
+<section id="programare" class="border-y border-line bg-cream">
+  <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <div class="reveal max-w-2xl">
+      <h2 class="h-section">Programarea durează două minute</h2>
+    </div>
+    <div class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+      {steps.map((step, i) => (
+        <div class="reveal">
+          <p class="font-serif text-5xl font-semibold text-red" aria-hidden="true">
+            {i + 1}
+          </p>
+          <h3 class="mt-4 font-serif text-xl font-semibold">{step.title}</h3>
+          <p class="mt-2.5 text-[0.95rem] leading-relaxed text-body">{step.text}</p>
+        </div>
+      ))}
+    </div>
+    <div class="reveal mt-12 flex flex-wrap items-center gap-3.5">
+      <a
+        href="https://wa.me/40726390461?text=Bun%C4%83%20ziua!%20A%C8%99%20dori%20s%C4%83%20fac%20o%20programare."
+        target="_blank"
+        rel="noopener"
+        class="rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+      >
+        Scrieți-ne pe WhatsApp
+      </a>
+      <a
+        href="tel:+40726390461"
+        class="rounded-[10px] border border-ink/20 px-6 py-3.5 text-[0.95rem] font-semibold transition-colors hover:border-ink/40"
+      >
+        Sunați: 0726 390 461
+      </a>
+      <a href={url('/programare')} class="text-[0.95rem] font-semibold underline underline-offset-4">
+        Cum decurge prima vizită
+      </a>
+    </div>
+  </div>
+</section>

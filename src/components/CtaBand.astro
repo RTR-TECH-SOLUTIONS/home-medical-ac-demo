@@ -1,0 +1,40 @@
+---
+import { site, whatsapp } from '../data/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+
+const {
+  title = 'Programați o vizită',
+  text = 'Ne transmiteți numele pacientului, localitatea și serviciul dorit, iar noi vă sunăm înapoi pentru a stabili ora.',
+} = Astro.props;
+---
+
+<section class="border-t border-line bg-cream">
+  <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-20">
+    <div class="reveal flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-xl">
+        <h2 class="h-section">{title}</h2>
+        <p class="lead mt-3.5">{text}</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3.5">
+        <a
+          href={whatsapp()}
+          target="_blank"
+          rel="noopener"
+          class="rounded-[10px] bg-red px-6 py-3.5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-red-dark"
+        >
+          Scrieți-ne pe WhatsApp
+        </a>
+        <a
+          href={site.phoneHref}
+          class="rounded-[10px] border border-ink/20 px-6 py-3.5 text-[0.95rem] font-semibold transition-colors hover:border-ink/40"
+        >
+          Sunați: {site.phone}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
